@@ -74,6 +74,7 @@ interface ApiService {
     @GET("commandes")
     suspend fun obtenirCommandes(
         @Query("agence_id") agenceId: Int? = null,
+        @Query("client_id") clientId: Int? = null,
         @Query("statut") statut: String? = null,
         @Query("page") page: Int = 1,
         @Query("limit") limit: Int = 20
@@ -109,6 +110,9 @@ interface ApiService {
     ): Response<ApiResponse<Livraison>>
 
     // ── CLIENTS
+    @GET("clients/{id}")
+    suspend fun obtenirDetailClient(@Path("id") id: Int): Response<ApiResponse<ClientDetail>>
+
     @GET("clients")
     suspend fun obtenirClients(
         @Query("agence_id") agenceId: Int? = null,

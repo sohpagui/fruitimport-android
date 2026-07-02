@@ -29,7 +29,7 @@ class MesCommandesViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val clientId = SessionManager.utilisateurConnecte?.id
-                val rep = RetrofitClient.instance.obtenirCommandes()
+                val rep = RetrofitClient.instance.obtenirCommandes(clientId = clientId)
                 if (rep.isSuccessful) {
                     val json = Gson().toJson((rep.body()?.data as? Map<*,*>)?.get("commandes"))
                     commandes = Gson().fromJson(json, object : TypeToken<List<Commande>>() {}.type) ?: emptyList()

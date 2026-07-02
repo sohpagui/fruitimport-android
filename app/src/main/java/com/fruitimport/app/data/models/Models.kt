@@ -16,7 +16,12 @@ data class User(
     val role: String,
     val agenceId: Int? = null,
     val isClient: Boolean = false,
-    val agence: Agence? = null
+    val agence: Agence? = null,
+    val limiteCredit: String? = null,
+    val creditUtilise: String? = null,
+    val statutCredit: String? = null,
+    val dateEcheance: String? = null,
+    val tauxInteretMensuel: String? = null
 )
 
 data class Client(
@@ -227,4 +232,19 @@ data class TransfertRequest(
     val calibreId: Int,
     val quantite: Int,
     val note: String? = null
+)
+
+data class ClientDetail(
+    val id: Int,
+    val nom: String,
+    val type: String,
+    val telephone: String,
+    val email: String? = null,
+    val adresse: String? = null,
+    val limiteCredit: String = "0",
+    val creditUtilise: String = "0",
+    val statutCredit: String = "EN_REGLE",
+    val dateEcheance: String? = null,
+    val tauxInteretMensuel: String = "0",
+    val agence: Agence? = null
 )
