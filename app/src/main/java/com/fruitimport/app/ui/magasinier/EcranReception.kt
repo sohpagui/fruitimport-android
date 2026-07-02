@@ -16,6 +16,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.fruitimport.app.data.api.RetrofitClient
 import com.fruitimport.app.data.models.Fruit
+import com.fruitimport.app.data.models.ReceptionRequest
 import com.fruitimport.app.ui.components.*
 import com.fruitimport.app.utils.SessionManager
 import kotlinx.coroutines.launch
@@ -35,9 +36,11 @@ class ReceptionViewModel : ViewModel() {
     fun receptionner(fruitId: Int, calibreId: Int, origine: String, cartonsNormal: Int, prixNormal: Double) {
         viewModelScope.launch {
             try {
-                val data = mapOf("agenceId" to (SessionManager.obtenirAgenceId() ?: 1),
-                    "fruitId" to fruitId, "calibreId" to calibreId, "origine" to origine,
-                    "cartonsNormal" to cartonsNormal, "prixNormal" to prixNormal, "cartonsSolde" to 0)
+                val data = ReceptionRequest(
+                    agenceId = SessionManager.obtenirAgenceId() ?: 1,
+                    fruitId = fruitId, calibreId = calibreId, origine = origine,
+                    cartonsNormal = cartonsNormal, prixNormal = prixNormal
+                )
                 val rep = RetrofitClient.instance.receptionnerMarchandise(data)
                 if (rep.isSuccessful) succes = true else erreur = rep.body()?.message
             } catch (e: Exception) { erreur = e.message }

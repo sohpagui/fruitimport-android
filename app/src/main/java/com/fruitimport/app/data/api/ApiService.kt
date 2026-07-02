@@ -62,12 +62,12 @@ interface ApiService {
 
     @POST("stock/reception")
     suspend fun receptionnerMarchandise(
-        @Body data: Map<String, Any>
+        @Body data: ReceptionRequest
     ): Response<ApiResponse<Any>>
 
     @POST("stock/pertes")
     suspend fun declarerPerte(
-        @Body data: Map<String, Any>
+        @Body data: PerteRequest
     ): Response<ApiResponse<Any>>
 
     // ── COMMANDES
@@ -138,7 +138,7 @@ interface ApiService {
     ): Response<ApiResponse<Map<String, Any>>>
 
     @POST("transferts")
-    suspend fun creerTransfert(@Body data: Map<String, Any>): Response<ApiResponse<Transfert>>
+    suspend fun creerTransfert(@Body data: TransfertRequest): Response<ApiResponse<Transfert>>
 
     @PATCH("transferts/{id}/approuver")
     suspend fun approuverTransfert(@Path("id") id: Int): Response<ApiResponse<Transfert>>

@@ -200,3 +200,31 @@ data class CreerCommandeRequest(
     val adresseLivraison: String,
     val lignes: List<LigneCommandeRequest>
 )
+
+data class ReceptionRequest(
+    val agenceId: Int,
+    val fruitId: Int,
+    val calibreId: Int,
+    val origine: String,
+    val cartonsNormal: Int,
+    val prixNormal: Double,
+    val cartonsSolde: Int = 0
+)
+
+data class PerteRequest(
+    val agenceId: Int,
+    val fruitId: Int,
+    val calibreId: Int,
+    val origine: String,
+    val categorie: String,
+    val quantite: Int,
+    val raison: String
+)
+
+data class TransfertRequest(
+    val agenceDestinationId: Int,
+    val fruitId: Int,
+    val calibreId: Int,
+    val quantite: Int,
+    val note: String? = null
+)

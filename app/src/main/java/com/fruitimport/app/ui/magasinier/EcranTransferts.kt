@@ -14,6 +14,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.fruitimport.app.data.api.RetrofitClient
 import com.fruitimport.app.data.models.Fruit
+import com.fruitimport.app.data.models.TransfertRequest
 import com.fruitimport.app.ui.components.*
 import kotlinx.coroutines.launch
 
@@ -25,7 +26,11 @@ class TransfertsViewModel : ViewModel() {
     fun demanderTransfert(fruitId: Int, calibreId: Int, quantite: Int, note: String) {
         viewModelScope.launch {
             try {
-                val data = mapOf("agenceDestinationId" to 2, "fruitId" to fruitId, "calibreId" to calibreId, "quantite" to quantite, "note" to note)
+                val data = TransfertRequest(
+                    agenceDestinationId = 2, fruitId = fruitId,
+                    calibreId = calibreId, quantite = quantite,
+                    note = if (note.isBlank()) null else note
+                )
                 val rep = RetrofitClient.instance.creerTransfert(data)
                 if (rep.isSuccessful) succes = true else erreur = rep.body()?.message
             } catch (e: Exception) { erreur = e.message }
