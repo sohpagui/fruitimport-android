@@ -17,6 +17,8 @@ import androidx.navigation.NavController
 import com.fruitimport.app.data.api.RetrofitClient
 import com.fruitimport.app.data.models.Client
 import com.fruitimport.app.data.models.Stock
+import com.fruitimport.app.data.models.CreerCommandeRequest
+import com.fruitimport.app.data.models.LigneCommandeRequest
 import com.fruitimport.app.ui.components.*
 import com.fruitimport.app.utils.SessionManager
 import com.fruitimport.app.utils.toFCFA
@@ -49,15 +51,17 @@ class NouvelleCommandeViewModel : ViewModel() {
         }
     }
 
-    fun creerCommande(clientId: Int, modePaiement: String, lignes: List<Map<String, Any>>, adresse: String) {
+    fun creerCommande(clientId: Int, modePaiement: String, lignes: List<LigneCommandeRequest>, adresse: String) {
         viewModelScope.launch {
             val agenceId = SessionManager.obtenirAgenceId() ?: 1
             try {
-                val data = mapOf("agenceId" to agenceId, "clientId" to clientId,
-                    "modePaiement" to modePaiement, "adresseLivraison" to adresse, "lignes" to lignes)
+                val data = CreerCommandeRequest(
+                    agenceId = agenceId, clientId = clientId,
+                    modePaiement = modePaiement, adresseLivraison = adresse, lignes = lignes
+                )
                 val rep = RetrofitClient.instance.creerCommande(data)
                 if (rep.isSuccessful && rep.body()?.success == true) succes = true
-                else erreur = rep.body()?.message ?: "Erreur"
+                else erreur = rep.body()?.message ?: (rep.errorBody()?.string() ?: "Erreur inconnue")
             } catch (e: Exception) { erreur = e.message }
         }
     }
@@ -70,7 +74,7 @@ fun EcranNouvelleCommande(navController: NavController, vm: NouvelleCommandeView
     var adresse by remember { mutableStateOf("") }
     var stockSelectionne by remember { mutableStateOf<Stock?>(null) }
     var quantite by remember { mutableStateOf("1") }
-    val lignes = remember { mutableStateListOf<Map<String, Any>>() }
+    val lignes = remember { mutableStateListOf<LigneCommandeRequest>() }
 
     LaunchedEffect(vm.succes) { if (vm.succes) navController.popBackStack() }
 
@@ -114,10 +118,10 @@ fun EcranNouvelleCommande(navController: NavController, vm: NouvelleCommandeView
                 OutlinedTextField(value = quantite, onValueChange = { quantite = it }, label = { Text("Quantité") }, modifier = Modifier.weight(1f))
                 Button(onClick = {
                     stockSelectionne?.let { s ->
-                        lignes.add(mapOf(
-                            "fruitId" to s.fruitId, "calibreId" to s.calibreId,
-                            "categorie" to s.categorie, "quantite" to (quantite.toIntOrNull() ?: 1),
-                            "prixUnitaire" to s.prixUnitaire
+                        lignes.add(LigneCommandeRequest(
+                            fruitId = s.fruitId, calibreId = s.calibreId,
+                            categorie = s.categorie, quantite = quantite.toIntOrNull() ?: 1,
+                            prixUnitaire = s.prixUnitaire.toDouble()
                         ))
                     }
                 }) { Text("Ajouter") }
@@ -126,7 +130,7 @@ fun EcranNouvelleCommande(navController: NavController, vm: NouvelleCommandeView
             // Résumé des lignes
             if (lignes.isNotEmpty()) {
                 Text("Articles (${lignes.size})", style = MaterialTheme.typography.labelLarge)
-                lignes.forEach { ligne -> Text("• Qté: ${ligne["quantite"]} × ${(ligne["prixUnitaire"] as? Double)?.toFCFA()}") }
+                lignes.forEach { ligne -> Text("Qte: ${ligne.quantite} x ${ligne.prixUnitaire.toFCFA()}") }
             }
 
             Button(

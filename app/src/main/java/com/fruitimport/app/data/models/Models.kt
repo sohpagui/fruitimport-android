@@ -184,3 +184,19 @@ data class InscriptionClientRequest(
     val email: String? = null,
     val adresse: String? = null
 )
+
+data class LigneCommandeRequest(
+    val fruitId: Int,
+    val calibreId: Int,
+    val categorie: String,
+    val quantite: Int,
+    val prixUnitaire: Double
+)
+
+data class CreerCommandeRequest(
+    val agenceId: Int,
+    val clientId: Int,
+    val modePaiement: String,
+    val adresseLivraison: String,
+    val lignes: List<LigneCommandeRequest>
+)

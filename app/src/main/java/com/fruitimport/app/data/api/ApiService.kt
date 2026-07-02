@@ -83,7 +83,7 @@ interface ApiService {
     suspend fun obtenirCommande(@Path("id") id: Int): Response<ApiResponse<Commande>>
 
     @POST("commandes")
-    suspend fun creerCommande(@Body data: Map<String, Any>): Response<ApiResponse<Commande>>
+    suspend fun creerCommande(@Body data: CreerCommandeRequest): Response<ApiResponse<Commande>>
 
     @PATCH("commandes/{id}/statut")
     suspend fun changerStatutCommande(

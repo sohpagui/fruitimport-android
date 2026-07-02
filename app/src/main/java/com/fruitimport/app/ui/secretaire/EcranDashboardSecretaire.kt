@@ -43,6 +43,8 @@ class DashboardSecretaireViewModel : ViewModel() {
 
 @Composable
 fun EcranDashboardSecretaire(navController: NavController, vm: DashboardSecretaireViewModel = viewModel()) {
+    LaunchedEffect(Unit) { vm.charger() }
+
     Scaffold(
         topBar = {
             BarreApp("Dashboard Secrétaire", actions = {
