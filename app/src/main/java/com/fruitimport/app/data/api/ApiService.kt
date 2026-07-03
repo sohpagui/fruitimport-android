@@ -13,6 +13,7 @@ package com.fruitimport.app.data.api
 
 import com.fruitimport.app.data.models.*
 import okhttp3.MultipartBody
+import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -120,6 +121,10 @@ interface ApiService {
     // ── CLIENTS
     @GET("clients/{id}")
     suspend fun obtenirDetailClient(@Path("id") id: Int): Response<ApiResponse<ClientDetail>>
+
+    @Streaming
+    @GET("commandes/{id}/bon-pdf")
+    suspend fun telechargerBonPDF(@Path("id") id: Int): Response<ResponseBody>
 
     @GET("clients")
     suspend fun obtenirClients(

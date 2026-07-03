@@ -1,5 +1,7 @@
 package com.fruitimport.app.ui.secretaire
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -11,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -28,7 +31,11 @@ import kotlinx.coroutines.launch
 class CommandesViewModel : ViewModel() {
     var chargement by mutableStateOf(true)
     var commandes by mutableStateOf<List<Commande>>(emptyList())
+    var pdfChargement by mutableStateOf(false)
+    var pdfErreur by mutableStateOf<String?>(null)
+
     init { charger() }
+
     fun charger() {
         viewModelScope.launch {
             chargement = true
@@ -43,9 +50,37 @@ class CommandesViewModel : ViewModel() {
             chargement = false
         }
     }
+
     fun confirmer(id: Int) {
         viewModelScope.launch {
-            try { RetrofitClient.instance.changerStatutCommande(id, mapOf("statut" to "CONFIRMEE")); charger() } catch (e: Exception) {}
+            try {
+                RetrofitClient.instance.changerStatutCommande(id, mapOf("statut" to "CONFIRMEE"))
+                charger()
+            } catch (e: Exception) {}
+        }
+    }
+
+    fun telechargerPDF(id: Int, context: android.content.Context) {
+        viewModelScope.launch {
+            pdfChargement = true
+            pdfErreur = null
+            try {
+                val rep = RetrofitClient.instance.telechargerBonPDF(id)
+                if (rep.isSuccessful && rep.body() != null) {
+                    val file = java.io.File(context.cacheDir, "BC_${id}.pdf")
+                    file.outputStream().use { rep.body()!!.byteStream().copyTo(it) }
+                    val uri = FileProvider.getUriForFile(context, "${context.packageName}.provider", file)
+                    val intent = Intent(Intent.ACTION_VIEW).apply {
+                        setDataAndType(uri, "application/pdf")
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    }
+                    context.startActivity(intent)
+                } else {
+                    pdfErreur = "Erreur telechargement PDF"
+                }
+            } catch (e: Exception) { pdfErreur = e.message }
+            pdfChargement = false
         }
     }
 }
@@ -67,8 +102,19 @@ fun EcranCommandes(navController: NavController, vm: CommandesViewModel = viewMo
                         Text(cmd.modePaiement.traduireStatut(), color = Color.Gray)
                         if (cmd.statut == "EN_ATTENTE") {
                             Spacer(Modifier.height(8.dp))
-                            Button(onClick = { vm.confirmer(cmd.id) }, modifier = Modifier.fillMaxWidth()) { Text("Confirmer") }
+                            Button(onClick = { vm.confirmer(cmd.id) }, modifier = Modifier.fillMaxWidth()) {
+                                Text("Confirmer")
+                            }
                         }
+                        Spacer(Modifier.height(4.dp))
+                        OutlinedButton(
+                            onClick = { vm.telechargerPDF(cmd.id, navController.context) },
+                            modifier = Modifier.fillMaxWidth(),
+                            enabled = !vm.pdfChargement
+                        ) {
+                            Text(if (vm.pdfChargement) "Telechargement..." else "Telecharger PDF")
+                        }
+                        vm.pdfErreur?.let { Text(it, color = Color.Red) }
                     }
                 }
             }
