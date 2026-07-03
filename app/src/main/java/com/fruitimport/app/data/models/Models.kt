@@ -261,3 +261,8 @@ data class CreerEmployeRequest(
 data class ModifierLimiteCreditRequest(
     val limiteCredit: Double
 )
+
+data class AssignerLivraisonRequest(
+    val commandeId: Int,
+    val livreurId: Int
+)

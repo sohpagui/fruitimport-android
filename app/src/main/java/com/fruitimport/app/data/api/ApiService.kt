@@ -110,7 +110,7 @@ interface ApiService {
     ): Response<ApiResponse<Map<String, Any>>>
 
     @POST("livraisons")
-    suspend fun creerLivraison(@Body data: Map<String, Int>): Response<ApiResponse<Livraison>>
+    suspend fun creerLivraison(@Body data: AssignerLivraisonRequest): Response<ApiResponse<Livraison>>
 
     @PATCH("livraisons/{id}/statut")
     suspend fun mettreAJourLivraison(
@@ -163,7 +163,13 @@ interface ApiService {
     @PATCH("transferts/{id}/rejeter")
     suspend fun rejeterTransfert(@Path("id") id: Int): Response<ApiResponse<Transfert>>
 
-    // ── UTILISATEURS (PDG)
+    // -- UTILISATEURS (PDG)
+    @GET("admin/users/livreurs")
+    suspend fun obtenirLivreurs(
+        @Query("agence_id") agenceId: Int? = null,
+        @Query("role") role: String? = null
+    ): Response<ApiResponse<Map<String, Any>>>
+
     @GET("admin/users")
     suspend fun obtenirEmployes(
         @Query("agence_id") agenceId: Int? = null,
