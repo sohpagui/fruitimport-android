@@ -17,6 +17,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.fruitimport.app.data.api.RetrofitClient
 import com.fruitimport.app.data.models.User
+import com.fruitimport.app.data.models.CreerEmployeRequest
 import com.fruitimport.app.ui.components.*
 import com.fruitimport.app.utils.traduireStatut
 import com.google.gson.Gson
@@ -49,9 +50,9 @@ class EmployesViewModel : ViewModel() {
     fun creerEmploye(nom: String, telephone: String, motDePasse: String, role: String, agenceId: Int) {
         viewModelScope.launch {
             try {
-                RetrofitClient.instance.creerEmploye(mapOf(
-                    "nom" to nom, "telephone" to telephone,
-                    "motDePasse" to motDePasse, "role" to role, "agenceId" to agenceId
+                RetrofitClient.instance.creerEmploye(CreerEmployeRequest(
+                    nom = nom, telephone = telephone,
+                    motDePasse = motDePasse, role = role, agenceId = agenceId
                 ))
                 afficherFormulaire = false
                 charger()

@@ -248,3 +248,15 @@ data class ClientDetail(
     val tauxInteretMensuel: String = "0",
     val agence: Agence? = null
 )
+
+data class CreerEmployeRequest(
+    val nom: String,
+    val telephone: String,
+    val motDePasse: String,
+    val role: String,
+    val agenceId: Int
+)
+
+data class ModifierLimiteCreditRequest(
+    val limiteCredit: Double
+)

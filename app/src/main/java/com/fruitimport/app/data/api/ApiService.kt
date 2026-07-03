@@ -126,7 +126,7 @@ interface ApiService {
     @PATCH("clients/{id}/credit-limite")
     suspend fun modifierLimiteCredit(
         @Path("id") id: Int,
-        @Body data: Map<String, Double>
+        @Body data: ModifierLimiteCreditRequest
     ): Response<ApiResponse<Client>>
 
     @POST("clients/{id}/paiements")
@@ -158,7 +158,7 @@ interface ApiService {
     ): Response<ApiResponse<Map<String, Any>>>
 
     @POST("admin/users")
-    suspend fun creerEmploye(@Body data: Map<String, Any>): Response<ApiResponse<User>>
+    suspend fun creerEmploye(@Body data: CreerEmployeRequest): Response<ApiResponse<User>>
 
     @PATCH("admin/users/{id}")
     suspend fun modifierEmploye(

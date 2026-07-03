@@ -17,6 +17,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.fruitimport.app.data.api.RetrofitClient
 import com.fruitimport.app.data.models.Client
+import com.fruitimport.app.data.models.ModifierLimiteCreditRequest
 import com.fruitimport.app.ui.components.*
 import com.fruitimport.app.utils.toFCFA
 import com.fruitimport.app.utils.traduireStatut
@@ -43,7 +44,7 @@ class ClientsPDGViewModel : ViewModel() {
     }
     fun modifierLimite(clientId: Int, limite: Double) {
         viewModelScope.launch {
-            try { RetrofitClient.instance.modifierLimiteCredit(clientId, mapOf("limiteCredit" to limite)) } catch (e: Exception) {}
+            try { RetrofitClient.instance.modifierLimiteCredit(clientId, ModifierLimiteCreditRequest(limiteCredit = limite)) } catch (e: Exception) {}
             charger()
         }
     }
