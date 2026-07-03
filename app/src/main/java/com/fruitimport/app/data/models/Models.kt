@@ -266,3 +266,8 @@ data class AssignerLivraisonRequest(
     val commandeId: Int,
     val livreurId: Int
 )
+
+data class MettreAJourLivraisonRequest(
+    val statut: String,
+    val noteProbleme: String? = null
+)

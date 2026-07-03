@@ -115,7 +115,7 @@ interface ApiService {
     @PATCH("livraisons/{id}/statut")
     suspend fun mettreAJourLivraison(
         @Path("id") id: Int,
-        @Body data: Map<String, String>
+        @Body data: MettreAJourLivraisonRequest
     ): Response<ApiResponse<Livraison>>
 
     // ── CLIENTS

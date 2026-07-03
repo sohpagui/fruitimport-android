@@ -18,6 +18,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.fruitimport.app.data.api.RetrofitClient
 import com.fruitimport.app.data.models.Livraison
+import com.fruitimport.app.data.models.MettreAJourLivraisonRequest
 import com.fruitimport.app.navigation.Routes
 import com.fruitimport.app.ui.components.*
 import com.fruitimport.app.utils.SessionManager
@@ -47,8 +48,10 @@ class LivreurViewModel : ViewModel() {
     fun mettreAJour(id: Int, statut: String, note: String = "") {
         viewModelScope.launch {
             try {
-                val data = mutableMapOf("statut" to statut)
-                if (note.isNotBlank()) data["noteProbleme"] = note
+                val data = MettreAJourLivraisonRequest(
+                    statut = statut,
+                    noteProbleme = if (note.isNotBlank()) note else null
+                )
                 RetrofitClient.instance.mettreAJourLivraison(id, data)
                 charger()
             } catch (e: Exception) {}
