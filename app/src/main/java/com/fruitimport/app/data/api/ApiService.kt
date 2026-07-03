@@ -12,6 +12,7 @@ package com.fruitimport.app.data.api
 // ============================================================
 
 import com.fruitimport.app.data.models.*
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -41,6 +42,13 @@ interface ApiService {
     // ── FRUITS
     @GET("fruits")
     suspend fun obtenirFruits(): Response<ApiResponse<List<Fruit>>>
+
+    @Multipart
+    @POST("fruits/{id}/image")
+    suspend fun uploadImageFruit(
+        @Path("id") id: Int,
+        @Part image: MultipartBody.Part
+    ): Response<ApiResponse<Fruit>>
 
     // ── STOCK
     @GET("stock")

@@ -50,6 +50,7 @@ data class Fruit(
     val id: Int,
     val nom: String,
     val uniteMesure: String,
+    val imageUrl: String? = null,
     val calibres: List<Calibre> = emptyList()
 )
 

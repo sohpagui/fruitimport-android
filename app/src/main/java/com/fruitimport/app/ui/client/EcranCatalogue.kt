@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
+import coil.compose.AsyncImage
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,6 +43,15 @@ fun EcranCatalogue(navController: NavController, vm: CatalogueViewModel = viewMo
             items(vm.stocks) { stock ->
                 Card(modifier = Modifier.fillMaxWidth()) {
                     Column(modifier = Modifier.padding(16.dp)) {
+                        stock.fruit?.imageUrl?.let { url ->
+                            AsyncImage(
+                                model = url,
+                                contentDescription = stock.fruit?.nom,
+                                modifier = androidx.compose.ui.Modifier.fillMaxWidth().height(150.dp),
+                                contentScale = androidx.compose.ui.layout.ContentScale.Crop
+                            )
+                            Spacer(modifier = androidx.compose.ui.Modifier.height(8.dp))
+                        }
                         Text("${stock.fruit?.nom ?: ""}", fontWeight = FontWeight.Bold)
                         Text("Calibre : ${stock.calibre?.valeur ?: ""}", color = Color.Gray)
                         Text("Prix : ${stock.prixUnitaire.toFCFA()}")
