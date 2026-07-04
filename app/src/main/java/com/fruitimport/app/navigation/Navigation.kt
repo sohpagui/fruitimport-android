@@ -14,6 +14,7 @@ import androidx.navigation.compose.composable
 import com.fruitimport.app.ui.auth.EcranConnexion
 import com.fruitimport.app.ui.auth.EcranInscriptionClient
 import com.fruitimport.app.ui.pdg.EcranDashboardPDG
+import com.fruitimport.app.ui.pdg.EcranGraphiques
 import com.fruitimport.app.ui.pdg.EcranEmployes
 import com.fruitimport.app.ui.pdg.EcranTransfertsPDG
 import com.fruitimport.app.ui.pdg.EcranClientsPDG
@@ -63,6 +64,7 @@ object Routes {
     // Client
     const val DASHBOARD_CLIENT = "dashboard_client"
         const val PROFIL = "profil"
+        const val GRAPHIQUES = "graphiques"
     const val CATALOGUE = "catalogue"
     const val MES_COMMANDES = "mes_commandes"
 }
@@ -138,6 +140,7 @@ fun NavigationPrincipale(navController: NavHostController) {
 
         // ── Écrans Client
         composable(Routes.PROFIL) { EcranProfil(navController) }
+        composable(Routes.GRAPHIQUES) { EcranGraphiques(navController) }
         composable(Routes.DASHBOARD_CLIENT) {
             EcranDashboardClient(navController)
         }

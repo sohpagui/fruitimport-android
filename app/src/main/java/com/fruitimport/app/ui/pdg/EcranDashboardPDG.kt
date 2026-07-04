@@ -55,6 +55,9 @@ fun EcranDashboardPDG(navController: NavController, vm: DashboardPDGViewModel = 
             BarreApp(
                 titre = "Dashboard PDG",
                 actions = {
+                    IconButton(onClick = { navController.navigate(Routes.GRAPHIQUES) }) {
+                        Icon(Icons.Default.BarChart, contentDescription = "Graphiques")
+                    }
                     IconButton(onClick = { navController.navigate(Routes.PROFIL) }) {
                         Icon(Icons.Default.Person, contentDescription = "Profil")
                     }

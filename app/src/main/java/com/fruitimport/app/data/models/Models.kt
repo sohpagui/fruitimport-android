@@ -146,7 +146,8 @@ data class DashboardPDG(
     val kpis: KPIs,
     val comparaison: Comparaison,
     val alertes: Alertes,
-    val synthese: List<String>
+    val synthese: List<String>,
+    val topFruits: List<TopFruit> = emptyList()
 )
 
 data class KPIs(
@@ -168,10 +169,12 @@ data class StatsAgence(
     val nbClients: Int,
     val nbEmployes: Int,
     val perteMois: Double,
-    val livraisonsEnCours: Int
+    val livraisonsEnCours: Int,
+    val topFruits: List<TopFruit> = emptyList()
 )
 
 data class VentesJour(val montant: Double, val nbCommandes: Int)
+data class TopFruit(val fruit: Fruit, val montant: Double, val quantite: Int)
 
 data class Alertes(
     val clientsEnRetard: Int,
