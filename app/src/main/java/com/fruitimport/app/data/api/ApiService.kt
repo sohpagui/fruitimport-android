@@ -122,6 +122,9 @@ interface ApiService {
     @GET("clients/{id}")
     suspend fun obtenirDetailClient(@Path("id") id: Int): Response<ApiResponse<ClientDetail>>
 
+    @PATCH("auth/changer-mot-de-passe")
+    suspend fun changerMotDePasse(@Body data: ChangerMotDePasseRequest): Response<ApiResponse<Any>>
+
     @Streaming
     @GET("commandes/{id}/bon-pdf")
     suspend fun telechargerBonPDF(@Path("id") id: Int): Response<ResponseBody>

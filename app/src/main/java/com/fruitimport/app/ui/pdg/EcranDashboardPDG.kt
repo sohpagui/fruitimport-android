@@ -55,11 +55,14 @@ fun EcranDashboardPDG(navController: NavController, vm: DashboardPDGViewModel = 
             BarreApp(
                 titre = "Dashboard PDG",
                 actions = {
+                    IconButton(onClick = { navController.navigate(Routes.PROFIL) }) {
+                        Icon(Icons.Default.Person, contentDescription = "Profil")
+                    }
                     IconButton(onClick = {
                         SessionManager.effacerSession()
                         navController.navigate(Routes.CONNEXION) { popUpTo(0) { inclusive = true } }
                     }) {
-                        Icon(Icons.Default.Logout, contentDescription = "Déconnexion")
+                        Icon(Icons.Default.Logout, contentDescription = "Deconnexion")
                     }
                 }
             )

@@ -29,6 +29,7 @@ import com.fruitimport.app.ui.magasinier.EcranTransferts
 import com.fruitimport.app.ui.livreur.EcranDashboardLivreur
 import com.fruitimport.app.ui.client.EcranDashboardClient
 import com.fruitimport.app.ui.client.EcranCatalogue
+import com.fruitimport.app.ui.components.EcranProfil
 import com.fruitimport.app.ui.client.EcranMesCommandes
 import com.fruitimport.app.utils.SessionManager
 
@@ -61,6 +62,7 @@ object Routes {
 
     // Client
     const val DASHBOARD_CLIENT = "dashboard_client"
+        const val PROFIL = "profil"
     const val CATALOGUE = "catalogue"
     const val MES_COMMANDES = "mes_commandes"
 }
@@ -135,6 +137,7 @@ fun NavigationPrincipale(navController: NavHostController) {
         }
 
         // ── Écrans Client
+        composable(Routes.PROFIL) { EcranProfil(navController) }
         composable(Routes.DASHBOARD_CLIENT) {
             EcranDashboardClient(navController)
         }
