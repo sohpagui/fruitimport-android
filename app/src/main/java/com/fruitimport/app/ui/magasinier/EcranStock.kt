@@ -49,23 +49,49 @@ class StockViewModel : ViewModel() {
 
 @Composable
 fun EcranStock(navController: NavController, vm: StockViewModel = viewModel()) {
+    var recherche by remember { mutableStateOf("") }
+
     Scaffold(topBar = { BarreApp("Stock", onRetour = { navController.popBackStack() }) }) { padding ->
         if (vm.chargement) ChargementIndicateur()
-        else LazyColumn(modifier = Modifier.padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            if (vm.alertes.isNotEmpty()) {
-                item { CarteAlerte("⚠️ ${vm.alertes.size} stock(s) bas !", "warning") }
+        else Column(modifier = Modifier.padding(padding)) {
+            OutlinedTextField(
+                value = recherche,
+                onValueChange = { recherche = it },
+                label = { Text("Rechercher un fruit...") },
+                leadingIcon = { Icon(Icons.Default.Search, null) },
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+                singleLine = true
+            )
+            val stocksFiltres = vm.stocks.filter { stock ->
+                recherche.isBlank() || (stock.fruit?.nom?.contains(recherche, ignoreCase = true) == true)
             }
-            items(vm.stocks) { stock ->
-                Card(modifier = Modifier.fillMaxWidth()) {
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                            Text("${stock.fruit?.nom ?: ""} — ${stock.calibre?.valeur ?: ""}", fontWeight = FontWeight.Bold)
-                            Text("${stock.quantiteCartons} cartons",
-                                color = if (stock.quantiteCartons <= 5) Color.Red else Color(0xFF2E7D32),
-                                fontWeight = FontWeight.Bold)
+            Text(
+                "${stocksFiltres.size} article(s)",
+                modifier = Modifier.padding(horizontal = 16.dp),
+                color = Color.Gray,
+                style = MaterialTheme.typography.bodySmall
+            )
+            LazyColumn(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                if (vm.alertes.isNotEmpty()) {
+                    item { CarteAlerte("⚠️ ${vm.alertes.size} stock(s) bas !", "warning") }
+                }
+                items(stocksFiltres) { stock ->
+                    Card(modifier = Modifier.fillMaxWidth()) {
+                        Column(modifier = Modifier.padding(16.dp)) {
+                            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                Text("${stock.fruit?.nom ?: ""} — ${stock.calibre?.valeur ?: ""}", fontWeight = FontWeight.Bold)
+                                Text(
+                                    "${stock.quantiteCartons} cartons",
+                                    color = if (stock.quantiteCartons <= 5) Color.Red else Color(0xFF2E7D32),
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                            Text("${stock.origine} • ${stock.categorie}", color = Color.Gray)
+                            Text(stock.prixUnitaire.toFCFA())
                         }
-                        Text("${stock.origine} • ${stock.categorie}", color = Color.Gray)
-                        Text(stock.prixUnitaire.toFCFA())
                     }
                 }
             }
