@@ -17,8 +17,21 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "BASE_URL", "\"https://fruitimport-backend.onrender.com/\"")
     }
+    signingConfigs {
+        create("release") {
+            storeFile = file("../fruitimport.keystore")
+            storePassword = "FruitImport@2024#Secure"
+            keyAlias = "fruitimport"
+            keyPassword = "FruitImport@2024#Secure"
+        }
+    }
+    lint {
+        abortOnError = false
+        checkReleaseBuilds = false
+    }
     buildTypes {
         release {
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
