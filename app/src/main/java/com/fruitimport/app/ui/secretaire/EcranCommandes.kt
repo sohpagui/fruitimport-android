@@ -87,34 +87,75 @@ class CommandesViewModel : ViewModel() {
 
 @Composable
 fun EcranCommandes(navController: NavController, vm: CommandesViewModel = viewModel()) {
+    var recherche by remember { mutableStateOf("") }
+    var filtreStatut by remember { mutableStateOf("TOUS") }
+
     Scaffold(topBar = { BarreApp("Commandes", onRetour = { navController.popBackStack() }) }) { padding ->
         if (vm.chargement) ChargementIndicateur()
-        else LazyColumn(modifier = Modifier.padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            items(vm.commandes) { cmd ->
-                Card(modifier = Modifier.fillMaxWidth()) {
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                            Text(cmd.numero, fontWeight = FontWeight.Bold)
-                            BadgeStatut(cmd.statut, cmd.statut.traduireStatut())
-                        }
-                        Text(cmd.client?.nom ?: "Client", color = Color.Gray)
-                        Text(cmd.montantTotal.toFCFA())
-                        Text(cmd.modePaiement.traduireStatut(), color = Color.Gray)
-                        if (cmd.statut == "EN_ATTENTE") {
-                            Spacer(Modifier.height(8.dp))
-                            Button(onClick = { vm.confirmer(cmd.id) }, modifier = Modifier.fillMaxWidth()) {
-                                Text("Confirmer")
+        else Column(modifier = Modifier.padding(padding)) {
+            OutlinedTextField(
+                value = recherche, onValueChange = { recherche = it },
+                label = { Text("Rechercher...") },
+                leadingIcon = { Icon(Icons.Default.Search, null) },
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+                singleLine = true
+            )
+            Row(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                listOf("TOUS", "EN_ATTENTE", "CONFIRMEE", "PREPAREE", "LIVREE").forEach { s ->
+                    FilterChip(
+                        selected = filtreStatut == s,
+                        onClick = { filtreStatut = s },
+                        label = { Text(when(s) {
+                            "TOUS" -> "Tous"
+                            "EN_ATTENTE" -> "Attente"
+                            "CONFIRMEE" -> "Confirme"
+                            "PREPAREE" -> "Prepare"
+                            "LIVREE" -> "Livre"
+                            else -> s
+                        }, style = MaterialTheme.typography.labelSmall) }
+                    )
+                }
+            }
+            val cmdFiltrees = vm.commandes.filter { cmd ->
+                val matchR = recherche.isBlank() ||
+                    cmd.numero.contains(recherche, ignoreCase = true) ||
+                    (cmd.client?.nom?.contains(recherche, ignoreCase = true) == true)
+                val matchS = filtreStatut == "TOUS" || cmd.statut == filtreStatut
+                matchR && matchS
+            }
+            LazyColumn(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(cmdFiltrees) { cmd ->
+                    Card(modifier = Modifier.fillMaxWidth()) {
+                        Column(modifier = Modifier.padding(16.dp)) {
+                            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                Text(cmd.numero, fontWeight = FontWeight.Bold)
+                                BadgeStatut(cmd.statut, cmd.statut.traduireStatut())
                             }
+                            Text(cmd.client?.nom ?: "Client", color = Color.Gray)
+                            Text(cmd.montantTotal.toFCFA())
+                            Text(cmd.modePaiement.traduireStatut(), color = Color.Gray)
+                            if (cmd.statut == "EN_ATTENTE") {
+                                Spacer(Modifier.height(8.dp))
+                                Button(onClick = { vm.confirmer(cmd.id) }, modifier = Modifier.fillMaxWidth()) {
+                                    Text("Confirmer")
+                                }
+                            }
+                            Spacer(Modifier.height(4.dp))
+                            OutlinedButton(
+                                onClick = { vm.telechargerPDF(cmd.id, navController.context) },
+                                modifier = Modifier.fillMaxWidth(),
+                                enabled = !vm.pdfChargement
+                            ) {
+                                Text(if (vm.pdfChargement) "Telechargement..." else "Telecharger PDF")
+                            }
+                            vm.pdfErreur?.let { Text(it, color = Color.Red) }
                         }
-                        Spacer(Modifier.height(4.dp))
-                        OutlinedButton(
-                            onClick = { vm.telechargerPDF(cmd.id, navController.context) },
-                            modifier = Modifier.fillMaxWidth(),
-                            enabled = !vm.pdfChargement
-                        ) {
-                            Text(if (vm.pdfChargement) "Telechargement..." else "Telecharger PDF")
-                        }
-                        vm.pdfErreur?.let { Text(it, color = Color.Red) }
                     }
                 }
             }
