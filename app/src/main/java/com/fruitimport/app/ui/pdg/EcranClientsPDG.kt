@@ -52,18 +52,69 @@ class ClientsPDGViewModel : ViewModel() {
 
 @Composable
 fun EcranClientsPDG(navController: NavController, vm: ClientsPDGViewModel = viewModel()) {
+    var recherche by remember { mutableStateOf("") }
+    var filtreStatut by remember { mutableStateOf("TOUS") }
+
     Scaffold(topBar = { BarreApp("Clients", onRetour = { navController.popBackStack() }) }) { padding ->
         if (vm.chargement) ChargementIndicateur()
-        else LazyColumn(modifier = Modifier.padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            items(vm.clients) { client ->
-                Card(modifier = Modifier.fillMaxWidth()) {
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                            Text(client.nom, fontWeight = FontWeight.Bold)
-                            BadgeStatut(client.statutCredit, client.statutCredit.traduireStatut())
+        else Column(modifier = Modifier.padding(padding)) {
+            // Barre de recherche
+            OutlinedTextField(
+                value = recherche,
+                onValueChange = { recherche = it },
+                label = { Text("Rechercher un client...") },
+                leadingIcon = { Icon(Icons.Default.Search, null) },
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+                singleLine = true
+            )
+            // Filtres par statut
+            Row(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                listOf("TOUS", "EN_REGLE", "A_RELANCER", "EN_RETARD").forEach { statut ->
+                    FilterChip(
+                        selected = filtreStatut == statut,
+                        onClick = { filtreStatut = statut },
+                        label = { Text(when(statut) {
+                            "TOUS" -> "Tous"
+                            "EN_REGLE" -> "OK"
+                            "A_RELANCER" -> "Relancer"
+                            "EN_RETARD" -> "Retard"
+                            else -> statut
+                        }, style = MaterialTheme.typography.labelSmall) }
+                    )
+                }
+            }
+            // Liste filtrée
+            val clientsFiltres = vm.clients.filter { client ->
+                val matchRecherche = recherche.isBlank() ||
+                    client.nom.contains(recherche, ignoreCase = true) ||
+                    client.telephone.contains(recherche)
+                val matchStatut = filtreStatut == "TOUS" || client.statutCredit == filtreStatut
+                matchRecherche && matchStatut
+            }
+            Text(
+                "${clientsFiltres.size} client(s)",
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                color = Color.Gray,
+                style = MaterialTheme.typography.bodySmall
+            )
+            LazyColumn(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(clientsFiltres) { client ->
+                    Card(modifier = Modifier.fillMaxWidth()) {
+                        Column(modifier = Modifier.padding(16.dp)) {
+                            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                Text(client.nom, fontWeight = FontWeight.Bold)
+                                BadgeStatut(client.statutCredit, client.statutCredit.traduireStatut())
+                            }
+                            Text(client.type.traduireStatut(), color = Color.Gray)
+                            Text("Credit utilise : ${client.creditUtilise.toFCFA()} / ${client.limiteCredit.toFCFA()}")
+                            Text(client.telephone, color = Color.Gray)
                         }
-                        Text(client.type.traduireStatut(), color = Color.Gray)
-                        Text("Crédit utilisé : ${client.creditUtilise.toFCFA()} / ${client.limiteCredit.toFCFA()}")
                     }
                 }
             }
