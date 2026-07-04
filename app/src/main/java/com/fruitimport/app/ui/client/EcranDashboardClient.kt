@@ -45,7 +45,10 @@ fun EcranDashboardClient(navController: NavController, vm: DashboardClientViewMo
     LaunchedEffect(Unit) { vm.charger() }
     Scaffold(
         topBar = { BarreApp("Mon Espace", actions = {
-            IconButton(onClick = { SessionManager.effacerSession(); navController.navigate(Routes.CONNEXION) { popUpTo(0) { inclusive = true } } }) {
+            IconButton(onClick = { navController.navigate(Routes.PROFIL) }) {
+                    Icon(Icons.Default.Person, contentDescription = null)
+                }
+                    IconButton(onClick = { SessionManager.effacerSession(); navController.navigate(Routes.CONNEXION) { popUpTo(0) { inclusive = true } } }) {
                 Icon(Icons.Default.Logout, null)
             }
         }) },

@@ -43,7 +43,10 @@ class DashboardMagasinierViewModel : ViewModel() {
 fun EcranDashboardMagasinier(navController: NavController, vm: DashboardMagasinierViewModel = viewModel()) {
     Scaffold(
         topBar = { BarreApp("Dashboard Magasinier", actions = {
-            IconButton(onClick = { SessionManager.effacerSession(); navController.navigate(Routes.CONNEXION) { popUpTo(0) { inclusive = true } } }) {
+            IconButton(onClick = { navController.navigate(Routes.PROFIL) }) {
+                    Icon(Icons.Default.Person, contentDescription = null)
+                }
+                    IconButton(onClick = { SessionManager.effacerSession(); navController.navigate(Routes.CONNEXION) { popUpTo(0) { inclusive = true } } }) {
                 Icon(Icons.Default.Logout, null)
             }
         }) },
