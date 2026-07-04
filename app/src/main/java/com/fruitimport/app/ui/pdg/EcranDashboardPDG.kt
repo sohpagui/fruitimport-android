@@ -85,7 +85,12 @@ fun EcranDashboardPDG(navController: NavController, vm: DashboardPDGViewModel = 
     ) { padding ->
         when {
             vm.chargement -> ChargementIndicateur()
-            vm.erreur != null -> MessageErreur(vm.erreur!!, onReessayer = { vm.charger() })
+            vm.erreur != null -> Box(modifier = Modifier.fillMaxSize(), contentAlignment = androidx.compose.ui.Alignment.Center) {
+                Column(horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Text(vm.erreur!!, color = androidx.compose.ui.graphics.Color.Red)
+                    Button(onClick = { vm.charger() }) { Text("Reessayer") }
+                }
+            }
             else -> {
                 val data = vm.dashboard!!
                 Column(
