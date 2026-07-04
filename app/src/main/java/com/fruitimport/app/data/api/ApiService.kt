@@ -122,6 +122,9 @@ interface ApiService {
     @GET("clients/{id}")
     suspend fun obtenirDetailClient(@Path("id") id: Int): Response<ApiResponse<ClientDetail>>
 
+    @POST("retours")
+    suspend fun creerRetour(@Body data: RetourRequest): Response<ApiResponse<Any>>
+
     @PATCH("auth/changer-mot-de-passe")
     suspend fun changerMotDePasse(@Body data: ChangerMotDePasseRequest): Response<ApiResponse<Any>>
 

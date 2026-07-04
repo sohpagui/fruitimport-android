@@ -61,6 +61,7 @@ fun EcranDashboardSecretaire(navController: NavController, vm: DashboardSecretai
                 NavigationBarItem(selected = true, onClick = {}, icon = { Icon(Icons.Default.Dashboard, null) }, label = { Text("Accueil") })
                 NavigationBarItem(selected = false, onClick = { navController.navigate(Routes.COMMANDES) }, icon = { Icon(Icons.Default.ShoppingCart, null) }, label = { Text("Commandes") })
                 NavigationBarItem(selected = false, onClick = { navController.navigate(Routes.LIVRAISONS) }, icon = { Icon(Icons.Default.LocalShipping, null) }, label = { Text("Livraisons") })
+                NavigationBarItem(selected = false, onClick = { navController.navigate(Routes.RETOURS) }, icon = { Icon(Icons.Default.Undo, null) }, label = { Text("Retours") })
             }
         },
         floatingActionButton = {

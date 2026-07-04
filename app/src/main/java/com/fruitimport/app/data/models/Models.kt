@@ -279,3 +279,11 @@ data class ChangerMotDePasseRequest(
     val ancienMotDePasse: String,
     val nouveauMotDePasse: String
 )
+
+data class RetourRequest(
+    val livraisonId: Int,
+    val fruitId: Int,
+    val calibreId: Int,
+    val quantite: Int,
+    val raison: String
+)
