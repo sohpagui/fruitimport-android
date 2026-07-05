@@ -23,6 +23,7 @@ import com.fruitimport.app.ui.secretaire.EcranCommandes
 import com.fruitimport.app.ui.secretaire.EcranNouvelleCommande
 import com.fruitimport.app.ui.secretaire.EcranLivraisons
 import com.fruitimport.app.ui.secretaire.EcranRetours
+import com.fruitimport.app.ui.secretaire.EcranArrivages
 import com.fruitimport.app.ui.magasinier.EcranDashboardMagasinier
 import com.fruitimport.app.ui.magasinier.EcranStock
 import com.fruitimport.app.ui.magasinier.EcranReception
@@ -67,6 +68,7 @@ object Routes {
         const val PROFIL = "profil"
         const val GRAPHIQUES = "graphiques"
         const val RETOURS = "retours"
+        const val ARRIVAGES = "arrivages"
     const val CATALOGUE = "catalogue"
     const val MES_COMMANDES = "mes_commandes"
 }
@@ -144,6 +146,7 @@ fun NavigationPrincipale(navController: NavHostController) {
         composable(Routes.PROFIL) { EcranProfil(navController) }
         composable(Routes.GRAPHIQUES) { EcranGraphiques(navController) }
         composable(Routes.RETOURS) { EcranRetours(navController) }
+        composable(Routes.ARRIVAGES) { EcranArrivages(navController) }
         composable(Routes.DASHBOARD_CLIENT) {
             EcranDashboardClient(navController)
         }
