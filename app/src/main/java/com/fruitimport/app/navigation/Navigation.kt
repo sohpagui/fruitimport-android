@@ -15,6 +15,7 @@ import com.fruitimport.app.ui.auth.EcranConnexion
 import com.fruitimport.app.ui.auth.EcranInscriptionClient
 import com.fruitimport.app.ui.pdg.EcranDashboardPDG
 import com.fruitimport.app.ui.pdg.EcranGraphiques
+import com.fruitimport.app.ui.pdg.EcranParametresPDG
 import com.fruitimport.app.ui.pdg.EcranEmployes
 import com.fruitimport.app.ui.pdg.EcranTransfertsPDG
 import com.fruitimport.app.ui.pdg.EcranClientsPDG
@@ -67,6 +68,7 @@ object Routes {
     const val DASHBOARD_CLIENT = "dashboard_client"
         const val PROFIL = "profil"
         const val GRAPHIQUES = "graphiques"
+        const val PARAMETRES_PDG = "parametres_pdg"
         const val RETOURS = "retours"
         const val ARRIVAGES = "arrivages"
     const val CATALOGUE = "catalogue"
@@ -145,6 +147,7 @@ fun NavigationPrincipale(navController: NavHostController) {
         // ── Écrans Client
         composable(Routes.PROFIL) { EcranProfil(navController) }
         composable(Routes.GRAPHIQUES) { EcranGraphiques(navController) }
+        composable(Routes.PARAMETRES_PDG) { EcranParametresPDG(navController) }
         composable(Routes.RETOURS) { EcranRetours(navController) }
         composable(Routes.ARRIVAGES) { EcranArrivages(navController) }
         composable(Routes.DASHBOARD_CLIENT) {

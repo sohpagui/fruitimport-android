@@ -1,6 +1,8 @@
 package com.fruitimport.app.ui.auth
 
 import androidx.compose.foundation.background
+import coil.compose.AsyncImage
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -103,6 +105,16 @@ fun FruitDecoration(emoji: String, x: Float, y: Float, size: Int, alpha: Float =
 @Composable
 fun EcranConnexion(navController: NavController, vm: LoginViewModel = viewModel()) {
     var identifiant by remember { mutableStateOf("") }
+    var logoUrl by remember { mutableStateOf<String?>(null) }
+    LaunchedEffect(Unit) {
+        try {
+            val rep = RetrofitClient.instance.obtenirParametres()
+            if (rep.isSuccessful) {
+                val data = rep.body()?.data as? Map<*, *>
+                logoUrl = data?.get("logo_url") as? String
+            }
+        } catch (e: Exception) {}
+    }
     var motDePasse by remember { mutableStateOf("") }
     var mdpVisible by remember { mutableStateOf(false) }
 
@@ -155,7 +167,11 @@ fun EcranConnexion(navController: NavController, vm: LoginViewModel = viewModel(
                     .background(Color.White.copy(alpha = 0.15f)),
                 contentAlignment = Alignment.Center
             ) {
-                Text("🍎🍊", fontSize = 36.sp, textAlign = TextAlign.Center)
+                if (logoUrl != null) {
+                    AsyncImage(model = logoUrl, contentDescription = "Logo", modifier = Modifier.size(80.dp).clip(androidx.compose.foundation.shape.RoundedCornerShape(16.dp)), contentScale = ContentScale.Fit)
+                } else {
+                    Text("🍎🍊", fontSize = 36.sp, textAlign = TextAlign.Center)
+                }
             }
             Spacer(Modifier.height(12.dp))
             Text(

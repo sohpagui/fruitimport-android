@@ -125,6 +125,13 @@ interface ApiService {
     @POST("retours")
     suspend fun creerRetour(@Body data: RetourRequest): Response<ApiResponse<Any>>
 
+    @GET("parametres")
+    suspend fun obtenirParametres(): Response<ApiResponse<Any>>
+
+    @Multipart
+    @POST("parametres/logo")
+    suspend fun uploaderLogo(@Part logo: MultipartBody.Part): Response<ApiResponse<Any>>
+
     @GET("auth/me")
     suspend fun me(): Response<ApiResponse<Any>>
 
