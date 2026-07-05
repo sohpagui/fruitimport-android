@@ -44,6 +44,9 @@ interface ApiService {
     @PATCH("clients/{id}")
     suspend fun modifierClient(@Path("id") id: Int, @Body data: Map<String, String>): Response<ApiResponse<Client>>
 
+    @GET("commandes/{id}")
+    suspend fun obtenirDetailCommande(@Path("id") id: Int): Response<ApiResponse<Any>>
+
     @GET("auth/me")
     suspend fun moi(): Response<ApiResponse<User>>
 

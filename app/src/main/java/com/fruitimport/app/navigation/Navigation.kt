@@ -27,6 +27,7 @@ import com.fruitimport.app.ui.secretaire.EcranRetours
 import com.fruitimport.app.ui.secretaire.EcranArrivages
 import com.fruitimport.app.ui.secretaire.EcranGestionFruits
 import com.fruitimport.app.ui.secretaire.EcranGestionClients
+import com.fruitimport.app.ui.secretaire.EcranDetailCommande
 import com.fruitimport.app.ui.chat.EcranConversations
 import com.fruitimport.app.ui.chat.EcranChat
 import com.fruitimport.app.ui.magasinier.EcranDashboardMagasinier
@@ -77,6 +78,7 @@ object Routes {
         const val ARRIVAGES = "arrivages"
         const val GESTION_FRUITS = "gestion_fruits"
         const val GESTION_CLIENTS = "gestion_clients"
+        const val DETAIL_COMMANDE = "detail_commande"
         const val CONVERSATIONS = "conversations"
         const val CHAT = "chat"
     const val CATALOGUE = "catalogue"
@@ -160,6 +162,10 @@ fun NavigationPrincipale(navController: NavHostController) {
         composable(Routes.ARRIVAGES) { EcranArrivages(navController) }
         composable(Routes.GESTION_FRUITS) { EcranGestionFruits(navController) }
         composable(Routes.GESTION_CLIENTS) { EcranGestionClients(navController) }
+        composable("detail_commande/{id}") { back ->
+            val id = back.arguments?.getString("id")?.toIntOrNull() ?: 0
+            EcranDetailCommande(navController, id)
+        }
         composable(Routes.CONVERSATIONS) { EcranConversations(navController) }
         composable("chat/{convId}") { back ->
             val convId = back.arguments?.getString("convId")?.toIntOrNull() ?: 0

@@ -2,6 +2,7 @@ package com.fruitimport.app.ui.secretaire
 
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -131,7 +132,7 @@ fun EcranCommandes(navController: NavController, vm: CommandesViewModel = viewMo
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(cmdFiltrees) { cmd ->
-                    Card(modifier = Modifier.fillMaxWidth()) {
+                    Card(modifier = Modifier.fillMaxWidth().clickable { navController.navigate("detail_commande/${cmd.id}") }) {
                         Column(modifier = Modifier.padding(16.dp)) {
                             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                                 Text(cmd.numero, fontWeight = FontWeight.Bold)

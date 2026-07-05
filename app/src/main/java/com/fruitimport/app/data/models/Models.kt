@@ -36,7 +36,9 @@ data class Client(
     val creditUtilise: Double = 0.0,
     val statutCredit: String = "EN_REGLE",
     val agenceId: Int,
-    val agence: Agence? = null
+    val agence: Agence? = null,
+    val lignes: List<LigneCommande>? = null,
+    val date: String? = null
 )
 
 data class Agence(
@@ -75,7 +77,9 @@ data class Stock(
     val prixUnitaire: Double,
     val fruit: Fruit? = null,
     val calibre: Calibre? = null,
-    val agence: Agence? = null
+    val agence: Agence? = null,
+    val lignes: List<LigneCommande>? = null,
+    val date: String? = null
 )
 
 data class Commande(
@@ -253,7 +257,9 @@ data class ClientDetail(
     val statutCredit: String = "EN_REGLE",
     val dateEcheance: String? = null,
     val tauxInteretMensuel: String = "0",
-    val agence: Agence? = null
+    val agence: Agence? = null,
+    val lignes: List<LigneCommande>? = null,
+    val date: String? = null
 )
 
 data class CreerEmployeRequest(
