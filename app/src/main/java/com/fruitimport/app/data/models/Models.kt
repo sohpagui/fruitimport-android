@@ -17,6 +17,7 @@ data class User(
     val agenceId: Int? = null,
     val isClient: Boolean = false,
     val agence: Agence? = null,
+    val photoUrl: String? = null,
     val limiteCredit: String? = null,
     val creditUtilise: String? = null,
     val statutCredit: String? = null,

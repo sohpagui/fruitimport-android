@@ -66,6 +66,14 @@ class LoginViewModel : ViewModel() {
                 if (reponse.isSuccessful && reponse.body()?.success == true) {
                     val data = reponse.body()!!.data!!
                     SessionManager.sauvegarderSession(data.utilisateur, data.accessToken, data.refreshToken)
+                    // Recuperer la photo de profil depuis le serveur
+                    try {
+                        val meRep = RetrofitClient.instance.me()
+                        if (meRep.isSuccessful) {
+                            val photoUrl = (meRep.body()?.data as? Map<*, *>)?.get("photoUrl") as? String
+                            if (photoUrl != null) { SessionManager.mettreAJourPhoto(photoUrl); android.util.Log.d("PHOTO_URL", "Photo: $photoUrl") } else { android.util.Log.d("PHOTO_URL", "Photo NULL") }
+                        }
+                    } catch (e: Exception) {}
                     succes = true
                 } else {
                     erreur = reponse.body()?.message ?: "Identifiant ou mot de passe incorrect."

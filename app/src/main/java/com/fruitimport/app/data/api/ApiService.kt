@@ -125,6 +125,13 @@ interface ApiService {
     @POST("retours")
     suspend fun creerRetour(@Body data: RetourRequest): Response<ApiResponse<Any>>
 
+    @GET("auth/me")
+    suspend fun me(): Response<ApiResponse<Any>>
+
+    @Multipart
+    @POST("auth/photo-profil")
+    suspend fun uploaderPhotoProfil(@Part photo: MultipartBody.Part): Response<ApiResponse<Any>>
+
     @PATCH("auth/changer-mot-de-passe")
     suspend fun changerMotDePasse(@Body data: ChangerMotDePasseRequest): Response<ApiResponse<Any>>
 

@@ -29,6 +29,8 @@ import com.fruitimport.app.data.models.Livraison
 import com.fruitimport.app.data.models.MettreAJourLivraisonRequest
 import com.fruitimport.app.navigation.Routes
 import com.fruitimport.app.ui.components.ChargementIndicateur
+import coil.compose.AsyncImage
+import androidx.compose.ui.layout.ContentScale
 import com.fruitimport.app.ui.components.BadgeStatut
 import com.fruitimport.app.ui.theme.OrangeFruit
 import com.fruitimport.app.ui.theme.VertFrais
@@ -80,8 +82,13 @@ fun EcranDashboardLivreur(navController: NavController, vm: LivreurViewModel = v
             Box(modifier = Modifier.fillMaxWidth().background(Brush.horizontalGradient(colors = listOf(Color(0xFF4527A0), Color(0xFF6A1B9A)))).padding(horizontal = 20.dp, vertical = 14.dp)) {
                 Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                        Box(modifier = Modifier.size(45.dp).clip(CircleShape).background(Color.White.copy(alpha = 0.2f)), contentAlignment = Alignment.Center) {
-                            Text(SessionManager.utilisateurConnecte?.nom?.take(1) ?: "L", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                        val photoUrl = SessionManager.utilisateurConnecte?.photoUrl
+                        if (photoUrl != null) {
+                            AsyncImage(model = photoUrl, contentDescription = null, modifier = Modifier.size(45.dp).clip(CircleShape), contentScale = ContentScale.Crop)
+                        } else {
+                            Box(modifier = Modifier.size(45.dp).clip(CircleShape).background(Color.White.copy(alpha = 0.2f)), contentAlignment = Alignment.Center) {
+                                Text(SessionManager.utilisateurConnecte?.nom?.take(1) ?: "L", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                            }
                         }
                         Column {
                             Text("Livreur", fontSize = 11.sp, color = Color.White.copy(alpha = 0.8f))

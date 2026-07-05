@@ -31,6 +31,8 @@ import com.fruitimport.app.data.api.RetrofitClient
 import com.fruitimport.app.data.models.DashboardPDG
 import com.fruitimport.app.navigation.Routes
 import com.fruitimport.app.ui.components.ChargementIndicateur
+import coil.compose.AsyncImage
+import androidx.compose.ui.layout.ContentScale
 import com.fruitimport.app.ui.theme.OrangeFruit
 import com.fruitimport.app.ui.theme.VertClair
 import com.fruitimport.app.ui.theme.VertFrais
@@ -44,6 +46,7 @@ class DashboardPDGViewModel : ViewModel() {
     var chargement by mutableStateOf(true)
     var stats by mutableStateOf<DashboardPDG?>(null)
     var erreur by mutableStateOf<String?>(null)
+    var photoUrl by mutableStateOf(SessionManager.utilisateurConnecte?.photoUrl)
 
     init { charger() }
 
@@ -53,7 +56,10 @@ class DashboardPDGViewModel : ViewModel() {
             erreur = null
             try {
                 val rep = RetrofitClient.instance.dashboardPDG()
-                if (rep.isSuccessful) stats = rep.body()?.data
+                if (rep.isSuccessful) {
+                    stats = rep.body()?.data
+                    photoUrl = SessionManager.utilisateurConnecte?.photoUrl
+                }
                 else erreur = "Erreur de chargement"
             } catch (e: Exception) { erreur = e.message }
             chargement = false
@@ -145,6 +151,14 @@ fun EcranDashboardPDG(navController: NavController, vm: DashboardPDGViewModel = 
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                         // Avatar initiales
+                        if (SessionManager.utilisateurConnecte?.photoUrl != null) {
+                            AsyncImage(
+                                model = SessionManager.utilisateurConnecte?.photoUrl,
+                                contentDescription = null,
+                                modifier = Modifier.size(50.dp).clip(CircleShape),
+                                contentScale = ContentScale.Crop
+                            )
+                        } else {
                         Box(
                             modifier = Modifier.size(50.dp).clip(CircleShape).background(Color.White.copy(alpha = 0.2f)),
                             contentAlignment = Alignment.Center
@@ -153,6 +167,7 @@ fun EcranDashboardPDG(navController: NavController, vm: DashboardPDGViewModel = 
                                 SessionManager.utilisateurConnecte?.nom?.take(1) ?: "P",
                                 fontSize = 22.sp, fontWeight = FontWeight.Bold, color = Color.White
                             )
+                        }
                         }
                         Column {
                             Text("Bonjour 👋", fontSize = 13.sp, color = Color.White.copy(alpha = 0.8f))
