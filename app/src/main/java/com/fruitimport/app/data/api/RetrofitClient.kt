@@ -57,6 +57,15 @@ object RetrofitClient {
         .writeTimeout(30, TimeUnit.SECONDS)
         .build()
 
+    // Instance sans token pour les endpoints publics
+    val instanceSansToken: ApiService by lazy {
+        Retrofit.Builder()
+            .baseUrl(BuildConfig.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ApiService::class.java)
+    }
+
     // Instance Retrofit unique (singleton)
     val instance: ApiService by lazy {
         Retrofit.Builder()

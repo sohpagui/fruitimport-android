@@ -108,9 +108,11 @@ fun EcranConnexion(navController: NavController, vm: LoginViewModel = viewModel(
     var logoUrl by remember { mutableStateOf<String?>(null) }
     LaunchedEffect(Unit) {
         try {
-            val rep = RetrofitClient.instance.obtenirParametres()
+            val rep = RetrofitClient.instanceSansToken.obtenirParametres()
+            android.util.Log.d("LOGO", "Success: ${rep.isSuccessful} body: ${rep.body()?.data}")
             if (rep.isSuccessful) {
                 val data = rep.body()?.data as? Map<*, *>
+                android.util.Log.d("LOGO", "data: $data logoUrl: ${data?.get("logo_url")}")
                 logoUrl = data?.get("logo_url") as? String
             }
         } catch (e: Exception) {}
@@ -160,17 +162,19 @@ fun EcranConnexion(navController: NavController, vm: LoginViewModel = viewModel(
             verticalArrangement = Arrangement.Center
         ) {
             // Logo et titre
+            if (logoUrl != null) {
             Box(
                 modifier = Modifier
-                    .size(100.dp)
-                    .clip(CircleShape)
-                    .background(Color.White.copy(alpha = 0.15f)),
+                    .size(120.dp)
+                    .clip(androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
+                    .background(Color.White),
                 contentAlignment = Alignment.Center
             ) {
                 if (logoUrl != null) {
-                    AsyncImage(model = logoUrl, contentDescription = "Logo", modifier = Modifier.size(80.dp).clip(androidx.compose.foundation.shape.RoundedCornerShape(16.dp)), contentScale = ContentScale.Fit)
+                    AsyncImage(model = logoUrl, contentDescription = "Logo", modifier = Modifier.fillMaxSize().padding(4.dp), contentScale = ContentScale.Fit)
                 } else {
                     Text("🍎🍊", fontSize = 36.sp, textAlign = TextAlign.Center)
+                }
                 }
             }
             Spacer(Modifier.height(12.dp))
