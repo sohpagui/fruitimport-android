@@ -1,6 +1,7 @@
 package com.fruitimport.app.ui.livreur
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -29,6 +30,7 @@ import com.fruitimport.app.data.models.Livraison
 import com.fruitimport.app.data.models.MettreAJourLivraisonRequest
 import com.fruitimport.app.navigation.Routes
 import com.fruitimport.app.ui.components.ChargementIndicateur
+import com.fruitimport.app.ui.components.PhotoViewer
 import coil.compose.AsyncImage
 import androidx.compose.ui.layout.ContentScale
 import com.fruitimport.app.ui.components.BadgeStatut
@@ -73,9 +75,13 @@ class LivreurViewModel : ViewModel() {
 @Composable
 fun EcranDashboardLivreur(navController: NavController, vm: LivreurViewModel = viewModel()) {
     LaunchedEffect(Unit) { vm.charger() }
+    var afficherPhoto by remember { mutableStateOf(false) }
     var noteProbleme by remember { mutableStateOf("") }
     var livraisonProblem by remember { mutableStateOf<Int?>(null) }
 
+    if (afficherPhoto && SessionManager.utilisateurConnecte?.photoUrl != null) {
+        PhotoViewer(url = SessionManager.utilisateurConnecte?.photoUrl!!, onFermer = { afficherPhoto = false })
+    }
     Box(modifier = Modifier.fillMaxSize()) {
         Box(modifier = Modifier.fillMaxSize().background(Brush.verticalGradient(colors = listOf(Color(0xFFE8EAF6), Color(0xFFF5F5F5)))))
         Column(modifier = Modifier.fillMaxSize()) {
@@ -83,7 +89,7 @@ fun EcranDashboardLivreur(navController: NavController, vm: LivreurViewModel = v
                 Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                         if (SessionManager.utilisateurConnecte?.photoUrl != null) {
-                            AsyncImage(model = SessionManager.utilisateurConnecte?.photoUrl, contentDescription = null, modifier = Modifier.size(45.dp).clip(CircleShape), contentScale = ContentScale.Crop)
+                            AsyncImage(model = SessionManager.utilisateurConnecte?.photoUrl, contentDescription = null, modifier = Modifier.size(45.dp).clip(CircleShape).clickable { afficherPhoto = true }, contentScale = ContentScale.Crop)
                         } else {
                             Box(modifier = Modifier.size(45.dp).clip(CircleShape).background(Color.White.copy(alpha = 0.2f)), contentAlignment = Alignment.Center) {
                                 Text(SessionManager.utilisateurConnecte?.nom?.take(1) ?: "L", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color.White)

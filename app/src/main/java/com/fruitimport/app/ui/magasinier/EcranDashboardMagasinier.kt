@@ -29,6 +29,7 @@ import com.fruitimport.app.data.api.RetrofitClient
 import com.fruitimport.app.data.models.StatsAgence
 import com.fruitimport.app.navigation.Routes
 import com.fruitimport.app.ui.components.ChargementIndicateur
+import com.fruitimport.app.ui.components.PhotoViewer
 import coil.compose.AsyncImage
 import androidx.compose.ui.layout.ContentScale
 import com.fruitimport.app.ui.secretaire.BoutonAction
@@ -56,8 +57,12 @@ class DashboardMagasinierViewModel : ViewModel() {
 @Composable
 fun EcranDashboardMagasinier(navController: NavController, vm: DashboardMagasinierViewModel = viewModel()) {
     LaunchedEffect(Unit) { vm.charger() }
+    var afficherPhoto by remember { mutableStateOf(false) }
     val agenceNom = if (SessionManager.obtenirAgenceId() == 1) "Douala" else "Yaounde"
 
+    if (afficherPhoto && SessionManager.utilisateurConnecte?.photoUrl != null) {
+        PhotoViewer(url = SessionManager.utilisateurConnecte?.photoUrl!!, onFermer = { afficherPhoto = false })
+    }
     Box(modifier = Modifier.fillMaxSize()) {
         Box(modifier = Modifier.fillMaxSize().background(Brush.verticalGradient(colors = listOf(Color(0xFFFFF8E1), Color(0xFFF5F5F5)))))
         Column(modifier = Modifier.fillMaxSize()) {
@@ -65,7 +70,7 @@ fun EcranDashboardMagasinier(navController: NavController, vm: DashboardMagasini
                 Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                         if (SessionManager.utilisateurConnecte?.photoUrl != null) {
-                            AsyncImage(model = SessionManager.utilisateurConnecte?.photoUrl, contentDescription = null, modifier = Modifier.size(45.dp).clip(CircleShape), contentScale = ContentScale.Crop)
+                            AsyncImage(model = SessionManager.utilisateurConnecte?.photoUrl, contentDescription = null, modifier = Modifier.size(45.dp).clip(CircleShape).clickable { afficherPhoto = true }, contentScale = ContentScale.Crop)
                         } else {
                             Box(modifier = Modifier.size(45.dp).clip(CircleShape).background(Color.White.copy(alpha = 0.2f)), contentAlignment = Alignment.Center) {
                                 Text(SessionManager.utilisateurConnecte?.nom?.take(1) ?: "M", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color.White)
