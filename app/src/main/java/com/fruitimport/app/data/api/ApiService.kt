@@ -38,6 +38,12 @@ interface ApiService {
     @PATCH("fruits/calibres/{calibreId}")
     suspend fun modifierCalibre(@Path("calibreId") id: Int, @Body data: ModifierCalibreRequest): Response<ApiResponse<Calibre>>
 
+    @POST("clients")
+    suspend fun creerClient(@Body data: CreerClientSecretaireRequest): Response<ApiResponse<Client>>
+
+    @PATCH("clients/{id}")
+    suspend fun modifierClient(@Path("id") id: Int, @Body data: Map<String, String>): Response<ApiResponse<Client>>
+
     @GET("auth/me")
     suspend fun moi(): Response<ApiResponse<User>>
 
@@ -181,7 +187,6 @@ interface ApiService {
     @POST("parametres/logo")
     suspend fun uploaderLogo(@Part logo: MultipartBody.Part): Response<ApiResponse<Any>>
 
-    @GET("auth/me")
     suspend fun me(): Response<ApiResponse<Any>>
 
     @Multipart

@@ -346,3 +346,13 @@ data class AjouterCalibreRequest(
 data class ModifierCalibreRequest(
     val prixVente: Double
 )
+
+data class CreerClientSecretaireRequest(
+    val nom: String,
+    val telephone: String,
+    val type: String,
+    val agenceId: Int,
+    val email: String? = null,
+    val adresse: String? = null,
+    val limiteCredit: Double = 0.0
+)

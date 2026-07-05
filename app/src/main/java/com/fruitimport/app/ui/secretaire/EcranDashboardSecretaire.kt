@@ -164,6 +164,7 @@ fun EcranDashboardSecretaire(navController: NavController, vm: DashboardSecretai
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     BoutonAction("🍎", "Fruits", VertFrais, { navController.navigate(Routes.GESTION_FRUITS) }, Modifier.weight(1f))
+                    BoutonAction("👥", "Clients", Color(0xFF00695C), { navController.navigate(Routes.GESTION_CLIENTS) }, Modifier.weight(1f))
                     BoutonAction("📸", "Photos", Color(0xFF6A1B9A), { navController.navigate(Routes.ARRIVAGES) }, Modifier.weight(1f))
                     Spacer(Modifier.weight(1f))
                 }
