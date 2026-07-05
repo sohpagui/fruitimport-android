@@ -31,6 +31,7 @@ import com.fruitimport.app.data.api.RetrofitClient
 import com.fruitimport.app.data.models.DashboardPDG
 import com.fruitimport.app.navigation.Routes
 import com.fruitimport.app.ui.components.ChargementIndicateur
+import com.fruitimport.app.ui.components.PhotoViewer
 import coil.compose.AsyncImage
 import androidx.compose.ui.layout.ContentScale
 import com.fruitimport.app.ui.theme.OrangeFruit
@@ -124,11 +125,15 @@ fun CarteKPI(titre: String, valeur: String, emoji: String, couleur: Color, modif
 @Composable
 fun EcranDashboardPDG(navController: NavController, vm: DashboardPDGViewModel = viewModel()) {
     LaunchedEffect(Unit) { vm.charger() }
+    var afficherPhoto by remember { mutableStateOf(false) }
 
     val dateAujourdhui = remember {
         SimpleDateFormat("EEEE d MMMM yyyy", Locale.FRENCH).format(Date()).replaceFirstChar { it.uppercase() }
     }
 
+    if (afficherPhoto && SessionManager.utilisateurConnecte?.photoUrl != null) {
+        PhotoViewer(url = SessionManager.utilisateurConnecte?.photoUrl!!, onFermer = { afficherPhoto = false })
+    }
     Box(modifier = Modifier.fillMaxSize()) {
         // Fond degrade
         Box(
@@ -155,7 +160,7 @@ fun EcranDashboardPDG(navController: NavController, vm: DashboardPDGViewModel = 
                             AsyncImage(
                                 model = SessionManager.utilisateurConnecte?.photoUrl,
                                 contentDescription = null,
-                                modifier = Modifier.size(50.dp).clip(CircleShape),
+                                modifier = Modifier.size(50.dp).clip(CircleShape).clickable { afficherPhoto = true },
                                 contentScale = ContentScale.Crop
                             )
                         } else {

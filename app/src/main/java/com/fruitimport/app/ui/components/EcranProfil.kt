@@ -97,9 +97,14 @@ fun EcranProfil(navController: NavController, vm: ProfilViewModel = viewModel())
     var confirmVisible by remember { mutableStateOf(false) }
     val user = SessionManager.utilisateurConnecte
     val context = LocalContext.current
+    var afficherPhoto by remember { mutableStateOf(false) }
 
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         uri?.let { vm.uploaderPhoto(context, it) }
+    }
+
+    if (afficherPhoto && vm.photoUrl != null) {
+        PhotoViewer(url = vm.photoUrl!!, onFermer = { afficherPhoto = false })
     }
 
     Scaffold(topBar = { BarreApp("Mon Profil", onRetour = { navController.popBackStack() }) }) { padding ->
@@ -110,7 +115,7 @@ fun EcranProfil(navController: NavController, vm: ProfilViewModel = viewModel())
                 Column(modifier = Modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     Box(contentAlignment = Alignment.BottomEnd) {
                         if (vm.photoUrl != null) {
-                            AsyncImage(model = vm.photoUrl, contentDescription = null, modifier = Modifier.size(90.dp).clip(CircleShape), contentScale = ContentScale.Crop)
+                            AsyncImage(model = vm.photoUrl, contentDescription = null, modifier = Modifier.size(90.dp).clip(CircleShape).clickable { afficherPhoto = true }, contentScale = ContentScale.Crop)
                         } else {
                             Box(modifier = Modifier.size(90.dp).clip(CircleShape).background(VertFrais.copy(alpha = 0.2f)), contentAlignment = Alignment.Center) {
                                 Text(user?.nom?.take(1) ?: "?", fontSize = 36.sp, fontWeight = FontWeight.ExtraBold, color = VertFrais)
