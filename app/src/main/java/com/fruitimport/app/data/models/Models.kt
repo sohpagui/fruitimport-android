@@ -288,3 +288,43 @@ data class RetourRequest(
     val quantite: Int,
     val raison: String
 )
+
+data class MessageSender(
+    val id: Int,
+    val nom: String,
+    val photoUrl: String? = null
+)
+
+data class Message(
+    val id: Int,
+    val conversationId: Int,
+    val senderId: Int,
+    val contenu: String,
+    val type: String = "TEXTE",
+    val imageUrl: String? = null,
+    val lu: Boolean = false,
+    val createdAt: String,
+    val sender: MessageSender? = null
+)
+
+data class ConversationUser(
+    val id: Int,
+    val nom: String,
+    val photoUrl: String? = null,
+    val role: String = ""
+)
+
+data class ConversationParticipant(
+    val id: Int,
+    val userId: Int,
+    val user: ConversationUser? = null
+)
+
+data class Conversation(
+    val id: Int,
+    val nom: String? = null,
+    val type: String = "PRIVE",
+    val createdAt: String,
+    val participants: List<ConversationParticipant> = emptyList(),
+    val messages: List<Message> = emptyList()
+)

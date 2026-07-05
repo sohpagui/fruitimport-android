@@ -125,6 +125,33 @@ interface ApiService {
     @POST("retours")
     suspend fun creerRetour(@Body data: RetourRequest): Response<ApiResponse<Any>>
 
+    @GET("chat/utilisateurs")
+    suspend fun obtenirUtilisateursChat(): Response<ApiResponse<List<User>>>
+
+    @GET("chat/conversations")
+    suspend fun obtenirConversations(): Response<ApiResponse<List<Conversation>>>
+
+    @POST("chat/conversations")
+    suspend fun creerConversation(@Body data: Map<String, Int>): Response<ApiResponse<Conversation>>
+
+    @GET("chat/conversations/{id}/messages")
+    suspend fun obtenirMessages(@Path("id") id: Int): Response<ApiResponse<List<Message>>>
+
+    @Multipart
+    @POST("chat/conversations/{id}/messages")
+    suspend fun envoyerMessageAvecImage(
+        @Path("id") id: Int,
+        @Part("contenu") contenu: okhttp3.RequestBody,
+        @Part image: MultipartBody.Part? = null
+    ): Response<ApiResponse<Message>>
+
+    @FormUrlEncoded
+    @POST("chat/conversations/{id}/messages")
+    suspend fun envoyerMessage(
+        @Path("id") id: Int,
+        @Field("contenu") contenu: String
+    ): Response<ApiResponse<Message>>
+
     @GET("parametres")
     suspend fun obtenirParametres(): Response<ApiResponse<Any>>
 

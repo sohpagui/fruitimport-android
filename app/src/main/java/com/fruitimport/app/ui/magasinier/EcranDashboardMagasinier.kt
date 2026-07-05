@@ -82,6 +82,7 @@ fun EcranDashboardMagasinier(navController: NavController, vm: DashboardMagasini
                         }
                     }
                     Row {
+                        IconButton(onClick = { navController.navigate(Routes.CONVERSATIONS) }) { Icon(Icons.Default.Message, null, tint = Color.White) }
                         IconButton(onClick = { navController.navigate(Routes.PROFIL) }) { Icon(Icons.Default.Person, null, tint = Color.White) }
                         IconButton(onClick = { SessionManager.effacerSession(); navController.navigate(Routes.CONNEXION) { popUpTo(0) { inclusive = true } } }) { Icon(Icons.Default.Logout, null, tint = Color.White) }
                     }

@@ -186,6 +186,9 @@ fun EcranDashboardPDG(navController: NavController, vm: DashboardPDGViewModel = 
                         IconButton(onClick = { navController.navigate(Routes.GRAPHIQUES) }) {
                             Icon(Icons.Default.BarChart, null, tint = Color.White)
                         }
+                        IconButton(onClick = { navController.navigate(Routes.CONVERSATIONS) }) {
+                            Icon(Icons.Default.Message, null, tint = Color.White)
+                        }
                         IconButton(onClick = { navController.navigate(Routes.PROFIL) }) {
                             Icon(Icons.Default.Person, null, tint = Color.White)
                         }
