@@ -1,6 +1,11 @@
 package com.fruitimport.app.ui.pdg
 
+import android.content.Intent
 import android.net.Uri
+import androidx.core.content.FileProvider
+import java.io.File
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -44,6 +49,9 @@ class ParametresPDGViewModel : ViewModel() {
     var uploadEnCours by mutableStateOf(false)
     var succes by mutableStateOf<String?>(null)
     var erreur by mutableStateOf<String?>(null)
+    var rapportUrl by mutableStateOf<String?>(null)
+    var rapportDate by mutableStateOf<String?>(null)
+    var rapportEnCours by mutableStateOf(false)
 
     init { charger() }
 
@@ -55,9 +63,39 @@ class ParametresPDGViewModel : ViewModel() {
                 if (rep.isSuccessful) {
                     val data = rep.body()?.data as? Map<*, *>
                     logoUrl = data?.get("logo_url") as? String
+                // Charger info rapport
+                try {
+                    val repRapport = RetrofitClient.instance.obtenirRapport()
+                    if (repRapport.isSuccessful) {
+                        val dataRapport = repRapport.body()?.data as? Map<*, *>
+                        rapportUrl = dataRapport?.get("url") as? String
+                        rapportDate = dataRapport?.get("date") as? String
+                    }
+                } catch (e2: Exception) {}
                 }
             } catch (e: Exception) { erreur = e.message }
             chargement = false
+        }
+    }
+
+    var pdfUri by mutableStateOf<android.net.Uri?>(null)
+
+    fun genererEtOuvrirRapport(context: android.content.Context) {
+        viewModelScope.launch {
+            rapportEnCours = true; erreur = null; succes = null
+            try {
+                val rep = RetrofitClient.instance.genererRapport()
+                if (rep.isSuccessful && rep.body() != null) {
+                    val file = java.io.File(context.cacheDir, "rapport.pdf")
+                    withContext(Dispatchers.IO) {
+                        file.outputStream().use { rep.body()!!.byteStream().copyTo(it) }
+                    }
+                    val uri = FileProvider.getUriForFile(context, context.packageName + ".provider", file)
+                    pdfUri = uri
+                    succes = "Rapport genere !"
+                } else erreur = "Erreur generation rapport"
+            } catch (e: Exception) { erreur = e.message }
+            rapportEnCours = false
         }
     }
 
@@ -88,6 +126,17 @@ fun EcranParametresPDG(navController: NavController, vm: ParametresPDGViewModel 
 
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         uri?.let { vm.uploaderLogo(context, it) }
+    }
+
+    LaunchedEffect(vm.pdfUri) {
+        vm.pdfUri?.let { uri ->
+            val intent = android.content.Intent(android.content.Intent.ACTION_VIEW).apply {
+                setDataAndType(uri, "application/pdf")
+                addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            context.startActivity(intent)
+        }
     }
 
     Scaffold(topBar = { BarreApp("Parametres", onRetour = { navController.popBackStack() }) }) { padding ->
@@ -148,6 +197,50 @@ fun EcranParametresPDG(navController: NavController, vm: ParametresPDGViewModel 
                         }
                     }
                     Text("Format recommande: PNG ou JPG carre (ex: 200x200px)", color = Color.Gray, fontSize = 11.sp, textAlign = TextAlign.Center)
+                }
+            }
+            // Section Rapport
+            Text("Rapport Journalier", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+            Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(20.dp)) {
+                Column(modifier = Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    if (vm.rapportUrl != null) {
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                            Column {
+                                Text("Dernier rapport", fontWeight = FontWeight.Bold)
+                                Text(vm.rapportDate ?: "", color = Color.Gray, fontSize = 12.sp)
+                            }
+                            Icon(Icons.Default.CheckCircle, null, tint = VertFrais, modifier = Modifier.size(24.dp))
+                        }
+                        Button(
+                            onClick = {
+                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(vm.rapportUrl))
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                context.startActivity(intent)
+                            },
+                            modifier = Modifier.fillMaxWidth().height(50.dp),
+                            shape = RoundedCornerShape(12.dp),
+                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1565C0))
+                        ) {
+                            Icon(Icons.Default.Download, null)
+                            Spacer(Modifier.width(8.dp))
+                            Text("Telecharger le rapport PDF", fontWeight = FontWeight.SemiBold)
+                        }
+                    } else {
+                        Text("Aucun rapport disponible", color = Color.Gray)
+                    }
+                    OutlinedButton(
+                        onClick = { vm.genererEtOuvrirRapport(context) },
+                        modifier = Modifier.fillMaxWidth().height(50.dp),
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        if (vm.rapportEnCours) CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp)
+                        else {
+                            Icon(Icons.Default.Refresh, null)
+                            Spacer(Modifier.width(8.dp))
+                            Text("Generer le rapport maintenant")
+                        }
+                    }
+                    Text("Le rapport est genere automatiquement chaque soir a 22h.", color = Color.Gray, fontSize = 11.sp, textAlign = TextAlign.Center)
                 }
             }
             Spacer(Modifier.height(16.dp))

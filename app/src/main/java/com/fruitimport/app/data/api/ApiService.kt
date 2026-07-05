@@ -155,6 +155,13 @@ interface ApiService {
         @Field("contenu") contenu: String
     ): Response<ApiResponse<Message>>
 
+    @GET("parametres/rapport")
+    suspend fun obtenirRapport(): Response<ApiResponse<Any>>
+
+    @Streaming
+    @POST("parametres/rapport/generer")
+    suspend fun genererRapport(): Response<okhttp3.ResponseBody>
+
     @GET("parametres")
     suspend fun obtenirParametres(): Response<ApiResponse<Any>>
 
