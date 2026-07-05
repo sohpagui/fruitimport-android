@@ -125,6 +125,9 @@ interface ApiService {
     @POST("retours")
     suspend fun creerRetour(@Body data: RetourRequest): Response<ApiResponse<Any>>
 
+    @GET("chat/non-lus")
+    suspend fun obtenirNonLus(): Response<ApiResponse<Any>>
+
     @GET("chat/utilisateurs")
     suspend fun obtenirUtilisateursChat(): Response<ApiResponse<List<User>>>
 

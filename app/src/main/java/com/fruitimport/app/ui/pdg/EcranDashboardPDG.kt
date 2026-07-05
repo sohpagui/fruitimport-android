@@ -31,6 +31,7 @@ import com.fruitimport.app.data.api.RetrofitClient
 import com.fruitimport.app.data.models.DashboardPDG
 import com.fruitimport.app.navigation.Routes
 import com.fruitimport.app.ui.components.ChargementIndicateur
+import com.fruitimport.app.ui.components.BoutonMessages
 import com.fruitimport.app.ui.components.PhotoViewer
 import coil.compose.AsyncImage
 import androidx.compose.ui.layout.ContentScale
@@ -186,9 +187,7 @@ fun EcranDashboardPDG(navController: NavController, vm: DashboardPDGViewModel = 
                         IconButton(onClick = { navController.navigate(Routes.GRAPHIQUES) }) {
                             Icon(Icons.Default.BarChart, null, tint = Color.White)
                         }
-                        IconButton(onClick = { navController.navigate(Routes.CONVERSATIONS) }) {
-                            Icon(Icons.Default.Message, null, tint = Color.White)
-                        }
+                        BoutonMessages(navController)
                         IconButton(onClick = { navController.navigate(Routes.PROFIL) }) {
                             Icon(Icons.Default.Person, null, tint = Color.White)
                         }
