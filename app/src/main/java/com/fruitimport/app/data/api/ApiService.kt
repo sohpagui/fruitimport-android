@@ -47,6 +47,9 @@ interface ApiService {
     @GET("commandes/{id}")
     suspend fun obtenirDetailCommande(@Path("id") id: Int): Response<ApiResponse<Any>>
 
+    @POST("clients/{id}/versements")
+    suspend fun ajouterVersement(@Path("id") id: Int, @Body data: Map<String, Double>): Response<ApiResponse<Any>>
+
     @GET("auth/me")
     suspend fun moi(): Response<ApiResponse<User>>
 

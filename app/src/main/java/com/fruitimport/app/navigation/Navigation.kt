@@ -28,6 +28,7 @@ import com.fruitimport.app.ui.secretaire.EcranArrivages
 import com.fruitimport.app.ui.secretaire.EcranGestionFruits
 import com.fruitimport.app.ui.secretaire.EcranGestionClients
 import com.fruitimport.app.ui.secretaire.EcranDetailCommande
+import com.fruitimport.app.ui.secretaire.EcranFicheClient
 import com.fruitimport.app.ui.chat.EcranConversations
 import com.fruitimport.app.ui.chat.EcranChat
 import com.fruitimport.app.ui.magasinier.EcranDashboardMagasinier
@@ -162,6 +163,10 @@ fun NavigationPrincipale(navController: NavHostController) {
         composable(Routes.ARRIVAGES) { EcranArrivages(navController) }
         composable(Routes.GESTION_FRUITS) { EcranGestionFruits(navController) }
         composable(Routes.GESTION_CLIENTS) { EcranGestionClients(navController) }
+        composable("fiche_client/{id}") { back ->
+            val id = back.arguments?.getString("id")?.toIntOrNull() ?: 0
+            EcranFicheClient(navController, id)
+        }
         composable("detail_commande/{id}") { back ->
             val id = back.arguments?.getString("id")?.toIntOrNull() ?: 0
             EcranDetailCommande(navController, id)
