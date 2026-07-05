@@ -25,6 +25,7 @@ import com.fruitimport.app.ui.secretaire.EcranNouvelleCommande
 import com.fruitimport.app.ui.secretaire.EcranLivraisons
 import com.fruitimport.app.ui.secretaire.EcranRetours
 import com.fruitimport.app.ui.secretaire.EcranArrivages
+import com.fruitimport.app.ui.secretaire.EcranGestionFruits
 import com.fruitimport.app.ui.chat.EcranConversations
 import com.fruitimport.app.ui.chat.EcranChat
 import com.fruitimport.app.ui.magasinier.EcranDashboardMagasinier
@@ -73,6 +74,7 @@ object Routes {
         const val PARAMETRES_PDG = "parametres_pdg"
         const val RETOURS = "retours"
         const val ARRIVAGES = "arrivages"
+        const val GESTION_FRUITS = "gestion_fruits"
         const val CONVERSATIONS = "conversations"
         const val CHAT = "chat"
     const val CATALOGUE = "catalogue"
@@ -154,6 +156,7 @@ fun NavigationPrincipale(navController: NavHostController) {
         composable(Routes.PARAMETRES_PDG) { EcranParametresPDG(navController) }
         composable(Routes.RETOURS) { EcranRetours(navController) }
         composable(Routes.ARRIVAGES) { EcranArrivages(navController) }
+        composable(Routes.GESTION_FRUITS) { EcranGestionFruits(navController) }
         composable(Routes.CONVERSATIONS) { EcranConversations(navController) }
         composable("chat/{convId}") { back ->
             val convId = back.arguments?.getString("convId")?.toIntOrNull() ?: 0

@@ -59,6 +59,8 @@ data class Calibre(
     val id: Int,
     val fruitId: Int,
     val valeur: String,
+    val prixAchat: Double = 0.0,
+    val prixVente: Double = 0.0,
     val ordreAffichage: Int = 0
 )
 
@@ -327,4 +329,20 @@ data class Conversation(
     val createdAt: String,
     val participants: List<ConversationParticipant> = emptyList(),
     val messages: List<Message> = emptyList()
+)
+
+data class CreerFruitRequest(
+    val nom: String,
+    val uniteMesure: String
+)
+
+data class AjouterCalibreRequest(
+    val valeur: String,
+    val prixAchat: Double,
+    val prixVente: Double,
+    val ordreAffichage: Int = 0
+)
+
+data class ModifierCalibreRequest(
+    val prixVente: Double
 )

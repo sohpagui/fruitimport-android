@@ -26,6 +26,18 @@ interface ApiService {
     @POST("auth/register-client")
     suspend fun inscrireClient(@Body request: InscriptionClientRequest): Response<ApiResponse<Client>>
 
+    @POST("fruits")
+    suspend fun creerFruit(@Body data: CreerFruitRequest): Response<ApiResponse<Fruit>>
+
+    @PATCH("fruits/{id}")
+    suspend fun modifierFruit(@Path("id") id: Int, @Body data: Map<String, String>): Response<ApiResponse<Fruit>>
+
+    @POST("fruits/{id}/calibres")
+    suspend fun ajouterCalibre(@Path("id") id: Int, @Body data: AjouterCalibreRequest): Response<ApiResponse<Calibre>>
+
+    @PATCH("fruits/calibres/{calibreId}")
+    suspend fun modifierCalibre(@Path("calibreId") id: Int, @Body data: ModifierCalibreRequest): Response<ApiResponse<Calibre>>
+
     @GET("auth/me")
     suspend fun moi(): Response<ApiResponse<User>>
 
