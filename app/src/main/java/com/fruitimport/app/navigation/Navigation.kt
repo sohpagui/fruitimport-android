@@ -31,11 +31,11 @@ import com.fruitimport.app.ui.secretaire.EcranDetailCommande
 import com.fruitimport.app.ui.secretaire.EcranFicheClient
 import com.fruitimport.app.ui.secretaire.EcranReception
 import com.fruitimport.app.ui.secretaire.EcranStockSecretaire
+import com.fruitimport.app.ui.secretaire.EcranPertes
 import com.fruitimport.app.ui.chat.EcranConversations
 import com.fruitimport.app.ui.chat.EcranChat
 import com.fruitimport.app.ui.magasinier.EcranDashboardMagasinier
 import com.fruitimport.app.ui.magasinier.EcranStock
-import com.fruitimport.app.ui.magasinier.EcranPertes
 import com.fruitimport.app.ui.magasinier.EcranTransferts
 import com.fruitimport.app.ui.livreur.EcranDashboardLivreur
 import com.fruitimport.app.ui.client.EcranDashboardClient

@@ -50,6 +50,9 @@ interface ApiService {
     @POST("clients/{id}/versements")
     suspend fun ajouterVersement(@Path("id") id: Int, @Body data: Map<String, Double>): Response<ApiResponse<Any>>
 
+    @POST("stock/pertes")
+    suspend fun declarerPerte(@Body data: PerteRequest): Response<ApiResponse<Any>>
+
     @POST("stock/reception")
     suspend fun receptionMarchandise(@Body data: ReceptionRequest): Response<ApiResponse<Any>>
 
@@ -96,15 +99,12 @@ interface ApiService {
         @Query("agence_id") agenceId: Int
     ): Response<ApiResponse<List<Stock>>>
 
-    @POST("stock/reception")
+    @POST("stock/pertes")
     suspend fun receptionnerMarchandise(
         @Body data: ReceptionRequest
     ): Response<ApiResponse<Any>>
 
     @POST("stock/pertes")
-    suspend fun declarerPerte(
-        @Body data: PerteRequest
-    ): Response<ApiResponse<Any>>
 
     // ── COMMANDES
     @GET("commandes")

@@ -167,8 +167,8 @@ fun EcranDashboardSecretaire(navController: NavController, vm: DashboardSecretai
                     BoutonAction("📸", "Photos", Color(0xFF6A1B9A), { navController.navigate(Routes.ARRIVAGES) }, Modifier.weight(1f))
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    BoutonAction("⚠️", "Pertes", Color(0xFFC62828), { navController.navigate(Routes.PERTES) }, Modifier.weight(1f))
                     BoutonAction("⚙", "Profil", Color.Gray, { navController.navigate(Routes.PROFIL) }, Modifier.weight(1f))
-                    Spacer(Modifier.weight(2f))
                 }
                 Spacer(Modifier.height(16.dp))
             }
