@@ -50,6 +50,9 @@ interface ApiService {
     @POST("clients/{id}/versements")
     suspend fun ajouterVersement(@Path("id") id: Int, @Body data: Map<String, Double>): Response<ApiResponse<Any>>
 
+    @POST("stock/reception")
+    suspend fun receptionMarchandise(@Body data: ReceptionRequest): Response<ApiResponse<Any>>
+
     @GET("auth/me")
     suspend fun moi(): Response<ApiResponse<User>>
 

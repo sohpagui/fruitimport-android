@@ -224,7 +224,8 @@ data class ReceptionRequest(
     val origine: String,
     val cartonsNormal: Int,
     val prixNormal: Double,
-    val cartonsSolde: Int = 0
+    val cartonsSolde: Int = 0,
+    val prixSolde: Double? = null
 )
 
 data class PerteRequest(

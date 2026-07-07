@@ -29,11 +29,12 @@ import com.fruitimport.app.ui.secretaire.EcranGestionFruits
 import com.fruitimport.app.ui.secretaire.EcranGestionClients
 import com.fruitimport.app.ui.secretaire.EcranDetailCommande
 import com.fruitimport.app.ui.secretaire.EcranFicheClient
+import com.fruitimport.app.ui.secretaire.EcranReception
+import com.fruitimport.app.ui.secretaire.EcranStockSecretaire
 import com.fruitimport.app.ui.chat.EcranConversations
 import com.fruitimport.app.ui.chat.EcranChat
 import com.fruitimport.app.ui.magasinier.EcranDashboardMagasinier
 import com.fruitimport.app.ui.magasinier.EcranStock
-import com.fruitimport.app.ui.magasinier.EcranReception
 import com.fruitimport.app.ui.magasinier.EcranPertes
 import com.fruitimport.app.ui.magasinier.EcranTransferts
 import com.fruitimport.app.ui.livreur.EcranDashboardLivreur
@@ -63,7 +64,6 @@ object Routes {
     // Magasinier
     const val DASHBOARD_MAGASINIER = "dashboard_magasinier"
     const val STOCK = "stock"
-    const val RECEPTION = "reception"
     const val PERTES = "pertes"
     const val TRANSFERTS = "transferts"
 
@@ -78,6 +78,8 @@ object Routes {
         const val RETOURS = "retours"
         const val ARRIVAGES = "arrivages"
         const val GESTION_FRUITS = "gestion_fruits"
+        const val RECEPTION = "reception"
+        const val STOCK_SECRETAIRE = "stock_secretaire"
         const val GESTION_CLIENTS = "gestion_clients"
         const val DETAIL_COMMANDE = "detail_commande"
         const val CONVERSATIONS = "conversations"
@@ -140,9 +142,6 @@ fun NavigationPrincipale(navController: NavHostController) {
         composable(Routes.STOCK) {
             EcranStock(navController)
         }
-        composable(Routes.RECEPTION) {
-            EcranReception(navController)
-        }
         composable(Routes.PERTES) {
             EcranPertes(navController)
         }
@@ -162,6 +161,8 @@ fun NavigationPrincipale(navController: NavHostController) {
         composable(Routes.RETOURS) { EcranRetours(navController) }
         composable(Routes.ARRIVAGES) { EcranArrivages(navController) }
         composable(Routes.GESTION_FRUITS) { EcranGestionFruits(navController) }
+        composable(Routes.RECEPTION) { EcranReception(navController) }
+        composable(Routes.STOCK_SECRETAIRE) { EcranStockSecretaire(navController) }
         composable(Routes.GESTION_CLIENTS) { EcranGestionClients(navController) }
         composable("fiche_client/{id}") { back ->
             val id = back.arguments?.getString("id")?.toIntOrNull() ?: 0
