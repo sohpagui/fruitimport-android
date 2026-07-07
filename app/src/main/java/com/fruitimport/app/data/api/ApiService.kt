@@ -56,6 +56,9 @@ interface ApiService {
     @POST("stock/reception")
     suspend fun receptionMarchandise(@Body data: ReceptionRequest): Response<ApiResponse<Any>>
 
+    @POST("transferts")
+    suspend fun demanderTransfert(@Body data: TransfertRequest): Response<ApiResponse<Any>>
+
     @GET("auth/me")
     suspend fun moi(): Response<ApiResponse<User>>
 
