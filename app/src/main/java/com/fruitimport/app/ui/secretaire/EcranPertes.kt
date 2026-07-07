@@ -85,7 +85,7 @@ fun EcranPertes(navController: NavController, vm: PertesViewModel = viewModel())
             // Fruit
             Text("Fruit *", fontWeight = FontWeight.Bold, fontSize = 14.sp)
             ExposedDropdownMenuBox(expanded = fruitExpanded, onExpandedChange = { fruitExpanded = it }) {
-                OutlinedTextField(value = fruitSelectionne?.nom ?: "", onValueChange = {}, readOnly = true, label = { Text("Selectionner un fruit") }, trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = fruitExpanded) }, modifier = Modifier.fillMaxWidth().menuAnchor(), shape = RoundedCornerShape(12.dp))
+                OutlinedTextField(value = fruitSelectionne?.nom ?: "", onValueChange = { v -> fruitSelectionne = vm.fruits.firstOrNull { it.nom.contains(v, ignoreCase = true) } }, label = { Text("Fruit") }, trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = fruitExpanded) }, modifier = Modifier.fillMaxWidth().menuAnchor(), shape = RoundedCornerShape(12.dp))
                 ExposedDropdownMenu(expanded = fruitExpanded, onDismissRequest = { fruitExpanded = false }) {
                     vm.fruits.forEach { fruit -> DropdownMenuItem(text = { Text(fruit.nom) }, onClick = { fruitSelectionne = fruit; calibreTexte = ""; fruitExpanded = false }) }
                 }

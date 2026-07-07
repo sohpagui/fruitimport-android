@@ -52,7 +52,12 @@ class TransfertViewModel : ViewModel() {
                 if (rep.isSuccessful && rep.body()?.success == true) {
                     succes = "Transfert demande avec succes ! En attente approbation PDG."
                     onDone()
-                } else erreur = rep.body()?.message ?: "Erreur"
+                } else {
+                    val msg = rep.body()?.message ?: rep.errorBody()?.string() ?: "Erreur inconnue"
+                    erreur = if (msg.contains("insuffisant")) "Stock insuffisant pour ce transfert"
+                             else if (msg.contains("Stock")) msg
+                             else msg
+                }
             } catch (e: Exception) { erreur = e.message }
             enCours = false
         }
@@ -69,6 +74,7 @@ fun EcranTransfert(navController: NavController, vm: TransfertViewModel = viewMo
     var calibreExpanded by remember { mutableStateOf(false) }
     var fruitSelectionne by remember { mutableStateOf<Fruit?>(null) }
     var calibreTexte by remember { mutableStateOf("") }
+    var fruitTexte by remember { mutableStateOf("") }
     var quantite by remember { mutableStateOf("") }
     var note by remember { mutableStateOf("") }
 
@@ -90,9 +96,19 @@ fun EcranTransfert(navController: NavController, vm: TransfertViewModel = viewMo
             // Fruit
             Text("Fruit *", fontWeight = FontWeight.Bold, fontSize = 14.sp)
             ExposedDropdownMenuBox(expanded = fruitExpanded, onExpandedChange = { fruitExpanded = it }) {
-                OutlinedTextField(value = fruitSelectionne?.nom ?: "", onValueChange = {}, readOnly = true, label = { Text("Selectionner un fruit") }, trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = fruitExpanded) }, modifier = Modifier.fillMaxWidth().menuAnchor(), shape = RoundedCornerShape(12.dp))
-                ExposedDropdownMenu(expanded = fruitExpanded, onDismissRequest = { fruitExpanded = false }) {
-                    vm.fruits.forEach { fruit -> DropdownMenuItem(text = { Text(fruit.nom) }, onClick = { fruitSelectionne = fruit; calibreTexte = ""; fruitExpanded = false }) }
+                OutlinedTextField(
+                    value = fruitTexte,
+                    onValueChange = { fruitTexte = it; fruitExpanded = true; fruitSelectionne = vm.fruits.firstOrNull { f -> f.nom.equals(it, ignoreCase = true) } },
+                    label = { Text("Fruit") },
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = fruitExpanded) },
+                    modifier = Modifier.fillMaxWidth().menuAnchor(),
+                    shape = RoundedCornerShape(12.dp)
+                )
+                val fruitsFiltres = vm.fruits.filter { it.nom.contains(fruitTexte, ignoreCase = true) }
+                if (fruitsFiltres.isNotEmpty()) {
+                    ExposedDropdownMenu(expanded = fruitExpanded, onDismissRequest = { fruitExpanded = false }) {
+                        fruitsFiltres.forEach { fruit -> DropdownMenuItem(text = { Text(fruit.nom) }, onClick = { fruitSelectionne = fruit; fruitTexte = fruit.nom; calibreTexte = ""; fruitExpanded = false }) }
+                    }
                 }
             }
 
