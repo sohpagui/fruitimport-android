@@ -291,6 +291,7 @@ fun EcranDashboardPDG(navController: NavController, vm: DashboardPDGViewModel = 
                         CarteAction("⚙️", "Parametres", "Logo et config", Color(0xFF00695C), { navController.navigate(Routes.PARAMETRES_PDG) }, Modifier.weight(1f))
                         CarteAction("📋", "Commandes", "Toutes les agences", OrangeFruit, { navController.navigate(Routes.COMMANDES_PDG) }, Modifier.weight(1f))
                         CarteAction("📦", "Stock", "Les deux agences", VertFrais, { navController.navigate(Routes.STOCK_PDG) }, Modifier.weight(1f))
+                        CarteAction("💳", "Credits", "Limites clients", Color(0xFF00695C), { navController.navigate(Routes.CREDIT_CLIENT) }, Modifier.weight(1f))
                         CarteAction("🚪", "Deconnexion", "Quitter l'app", Color(0xFFC62828), {
                             SessionManager.effacerSession()
                             navController.navigate(Routes.CONNEXION) { popUpTo(0) { inclusive = true } }
