@@ -38,6 +38,7 @@ import com.fruitimport.app.ui.magasinier.EcranDashboardMagasinier
 import com.fruitimport.app.ui.magasinier.EcranStock
 import com.fruitimport.app.ui.magasinier.EcranTransferts
 import com.fruitimport.app.ui.secretaire.EcranTransfert
+import com.fruitimport.app.ui.secretaire.EcranAlertesStock
 import com.fruitimport.app.ui.livreur.EcranDashboardLivreur
 import com.fruitimport.app.ui.client.EcranDashboardClient
 import com.fruitimport.app.ui.client.EcranCatalogue
@@ -67,6 +68,7 @@ object Routes {
     const val STOCK = "stock"
     const val PERTES = "pertes"
         const val TRANSFERT_SECRETAIRE = "transfert_secretaire"
+        const val ALERTES_STOCK = "alertes_stock"
     const val TRANSFERTS = "transferts"
 
     // Livreur
@@ -148,6 +150,7 @@ fun NavigationPrincipale(navController: NavHostController) {
             EcranPertes(navController)
         }
         composable(Routes.TRANSFERT_SECRETAIRE) { EcranTransfert(navController) }
+        composable(Routes.ALERTES_STOCK) { EcranAlertesStock(navController) }
         composable(Routes.TRANSFERTS) {
             EcranTransferts(navController)
         }

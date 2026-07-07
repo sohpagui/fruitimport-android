@@ -59,6 +59,9 @@ interface ApiService {
     @POST("transferts")
     suspend fun demanderTransfert(@Body data: TransfertRequest): Response<ApiResponse<Any>>
 
+    @GET("stock/alertes")
+    suspend fun obtenirAlertesStock(@Query("agence_id") agenceId: Int? = null): Response<ApiResponse<Any>>
+
     @GET("auth/me")
     suspend fun moi(): Response<ApiResponse<User>>
 
