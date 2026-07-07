@@ -15,6 +15,7 @@ import com.fruitimport.app.ui.auth.EcranConnexion
 import com.fruitimport.app.ui.auth.EcranInscriptionClient
 import com.fruitimport.app.ui.pdg.EcranDashboardPDG
 import com.fruitimport.app.ui.pdg.EcranGraphiques
+import com.fruitimport.app.ui.pdg.EcranEmployes
 import com.fruitimport.app.ui.pdg.EcranParametresPDG
 import com.fruitimport.app.ui.pdg.EcranEmployes
 import com.fruitimport.app.ui.pdg.EcranTransfertsPDG
@@ -53,7 +54,6 @@ object Routes {
 
     // PDG
     const val DASHBOARD_PDG = "dashboard_pdg"
-    const val EMPLOYES = "employes"
     const val CLIENTS_PDG = "clients_pdg"
     const val TRANSFERTS_PDG = "transferts_pdg"
 
@@ -78,6 +78,7 @@ object Routes {
     const val DASHBOARD_CLIENT = "dashboard_client"
         const val PROFIL = "profil"
         const val GRAPHIQUES = "graphiques"
+        const val EMPLOYES = "employes"
         const val PARAMETRES_PDG = "parametres_pdg"
         const val RETOURS = "retours"
         const val ARRIVAGES = "arrivages"
@@ -114,9 +115,6 @@ fun NavigationPrincipale(navController: NavHostController) {
         // ── Écrans PDG
         composable(Routes.DASHBOARD_PDG) {
             EcranDashboardPDG(navController)
-        }
-        composable(Routes.EMPLOYES) {
-            EcranEmployes(navController)
         }
         composable(Routes.CLIENTS_PDG) {
             EcranClientsPDG(navController)
@@ -163,6 +161,7 @@ fun NavigationPrincipale(navController: NavHostController) {
         // ── Écrans Client
         composable(Routes.PROFIL) { EcranProfil(navController) }
         composable(Routes.GRAPHIQUES) { EcranGraphiques(navController) }
+        composable(Routes.EMPLOYES) { EcranEmployes(navController) }
         composable(Routes.PARAMETRES_PDG) { EcranParametresPDG(navController) }
         composable(Routes.RETOURS) { EcranRetours(navController) }
         composable(Routes.ARRIVAGES) { EcranArrivages(navController) }
