@@ -62,6 +62,15 @@ interface ApiService {
     @GET("stock/alertes")
     suspend fun obtenirAlertesStock(@Query("agence_id") agenceId: Int? = null): Response<ApiResponse<Any>>
 
+    @GET("stock/pertes")
+    suspend fun obtenirPertes(@Query("agence_id") agenceId: Int? = null): Response<ApiResponse<Any>>
+
+    @GET("transferts")
+    suspend fun obtenirTransferts(): Response<ApiResponse<Any>>
+
+    @PATCH("clients/{id}/echeance")
+    suspend fun fixerEcheance(@Path("id") id: Int, @Body data: FixerEcheanceRequest): Response<ApiResponse<Any>>
+
     @GET("auth/me")
     suspend fun moi(): Response<ApiResponse<User>>
 

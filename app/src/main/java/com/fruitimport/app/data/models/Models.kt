@@ -35,6 +35,7 @@ data class Client(
     val limiteCredit: Double = 0.0,
     val creditUtilise: Double = 0.0,
     val statutCredit: String = "EN_REGLE",
+    val dateEcheance: String? = null,
     val agenceId: Int,
     val agence: Agence? = null,
     val lignes: List<LigneCommande>? = null,
@@ -362,4 +363,9 @@ data class CreerClientSecretaireRequest(
     val email: String? = null,
     val adresse: String? = null,
     val limiteCredit: Double = 0.0
+)
+
+data class FixerEcheanceRequest(
+    val dateEcheance: String,
+    val tauxInteretMensuel: Int = 0
 )

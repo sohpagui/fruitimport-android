@@ -279,24 +279,27 @@ fun EcranDashboardPDG(navController: NavController, vm: DashboardPDGViewModel = 
                         }
                     }
 
-                    // Menu actions
-                    Text("Que voulez-vous faire ?", fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Color(0xFF1C1B1F))
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        CarteAction("👥", "Mes Clients", "Gerer les credits", VertFrais, { navController.navigate(Routes.CLIENTS_PDG) }, Modifier.weight(1f))
-                        CarteAction("👨‍💼", "Mon Equipe", "Voir les employes", OrangeFruit, { navController.navigate(Routes.EMPLOYES) }, Modifier.weight(1f))
-                        CarteAction("🔄", "Transferts", "Douala ↔ Yaounde", Color(0xFF1565C0), { navController.navigate(Routes.TRANSFERTS_PDG) }, Modifier.weight(1f))
-                    }
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        CarteAction("📊", "Graphiques", "Voir les stats", Color(0xFF6A1B9A), { navController.navigate(Routes.GRAPHIQUES) }, Modifier.weight(1f))
-                        CarteAction("⚙️", "Parametres", "Logo et config", Color(0xFF00695C), { navController.navigate(Routes.PARAMETRES_PDG) }, Modifier.weight(1f))
-                        CarteAction("📋", "Commandes", "Toutes les agences", OrangeFruit, { navController.navigate(Routes.COMMANDES_PDG) }, Modifier.weight(1f))
-                        CarteAction("📦", "Stock", "Les deux agences", VertFrais, { navController.navigate(Routes.STOCK_PDG) }, Modifier.weight(1f))
-                        CarteAction("💳", "Credits", "Limites clients", Color(0xFF00695C), { navController.navigate(Routes.CREDIT_CLIENT) }, Modifier.weight(1f))
-                        CarteAction("🚪", "Deconnexion", "Quitter l'app", Color(0xFFC62828), {
-                            SessionManager.effacerSession()
-                            navController.navigate(Routes.CONNEXION) { popUpTo(0) { inclusive = true } }
-                        }, Modifier.weight(1f))
-                    }
+                Text("Actions rapides", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    CarteAction("👥", "Clients", "Credits", VertFrais, { navController.navigate(Routes.CLIENTS_PDG) }, Modifier.weight(1f))
+                    CarteAction("👨‍💼", "Employes", "Mon equipe", OrangeFruit, { navController.navigate(Routes.EMPLOYES) }, Modifier.weight(1f))
+                    CarteAction("🔄", "Transferts", "Agences", Color(0xFF1565C0), { navController.navigate(Routes.TRANSFERTS_PDG) }, Modifier.weight(1f))
+                }
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    CarteAction("📋", "Commandes", "Toutes", OrangeFruit, { navController.navigate(Routes.COMMANDES_PDG) }, Modifier.weight(1f))
+                    CarteAction("📦", "Stock", "2 agences", VertFrais, { navController.navigate(Routes.STOCK_PDG) }, Modifier.weight(1f))
+                    CarteAction("📊", "Graphiques", "Stats", Color(0xFF6A1B9A), { navController.navigate(Routes.GRAPHIQUES) }, Modifier.weight(1f))
+                }
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    CarteAction("💳", "Credits", "Limites", Color(0xFF00695C), { navController.navigate(Routes.CREDIT_CLIENT) }, Modifier.weight(1f))
+                    CarteAction("📉", "Pertes", "Historique", Color(0xFFC62828), { navController.navigate(Routes.PERTES_PDG) }, Modifier.weight(1f))
+                    CarteAction("📅", "Echeances", "Clients", Color(0xFF6A1B9A), { navController.navigate(Routes.ECHEANCE_CLIENT) }, Modifier.weight(1f))
+                }
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    CarteAction("⚙️", "Parametres", "Config", Color(0xFF00695C), { navController.navigate(Routes.PARAMETRES_PDG) }, Modifier.weight(1f))
+                    CarteAction("🚪", "Deconnexion", "Quitter", Color(0xFFC62828), { SessionManager.effacerSession(); navController.navigate(Routes.CONNEXION) { popUpTo(0) { inclusive = true } } }, Modifier.weight(1f))
+                    Spacer(Modifier.weight(1f))
+                }
 
                     // Synthese
                     if (s != null && s.synthese.isNotEmpty()) {

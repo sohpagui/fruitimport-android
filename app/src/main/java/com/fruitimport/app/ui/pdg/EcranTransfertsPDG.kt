@@ -30,7 +30,7 @@ class TransfertsPDGViewModel : ViewModel() {
         viewModelScope.launch {
             chargement = true
             try {
-                val rep = RetrofitClient.instance.obtenirTransferts(statut = "EN_ATTENTE")
+                val rep = RetrofitClient.instance.obtenirTransferts()
                 if (rep.isSuccessful) {
                     val json = Gson().toJson((rep.body()?.data as? Map<*,*>)?.get("transferts"))
                     transferts = Gson().fromJson(json, object : TypeToken<List<Transfert>>() {}.type) ?: emptyList()
