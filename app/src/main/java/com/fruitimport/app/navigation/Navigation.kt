@@ -21,6 +21,7 @@ import com.fruitimport.app.ui.pdg.EcranStockPDG
 import com.fruitimport.app.ui.pdg.EcranCreditClient
 import com.fruitimport.app.ui.pdg.EcranPertesPDG
 import com.fruitimport.app.ui.pdg.EcranEcheanceClient
+import com.fruitimport.app.ui.pdg.EcranGestionEmployes
 import com.fruitimport.app.ui.pdg.EcranParametresPDG
 import com.fruitimport.app.ui.pdg.EcranEmployes
 import com.fruitimport.app.ui.pdg.EcranCommandesPDG
@@ -28,6 +29,7 @@ import com.fruitimport.app.ui.pdg.EcranStockPDG
 import com.fruitimport.app.ui.pdg.EcranCreditClient
 import com.fruitimport.app.ui.pdg.EcranPertesPDG
 import com.fruitimport.app.ui.pdg.EcranEcheanceClient
+import com.fruitimport.app.ui.pdg.EcranGestionEmployes
 import com.fruitimport.app.ui.pdg.EcranTransfertsPDG
 import com.fruitimport.app.ui.pdg.EcranClientsPDG
 import com.fruitimport.app.ui.secretaire.EcranDashboardSecretaire
@@ -94,6 +96,7 @@ object Routes {
         const val CREDIT_CLIENT = "credit_client"
         const val PERTES_PDG = "pertes_pdg"
         const val ECHEANCE_CLIENT = "echeance_client"
+        const val GESTION_EMPLOYES = "gestion_employes"
         const val PARAMETRES_PDG = "parametres_pdg"
         const val RETOURS = "retours"
         const val ARRIVAGES = "arrivages"
@@ -182,6 +185,7 @@ fun NavigationPrincipale(navController: NavHostController) {
         composable(Routes.CREDIT_CLIENT) { EcranCreditClient(navController) }
         composable(Routes.PERTES_PDG) { EcranPertesPDG(navController) }
         composable(Routes.ECHEANCE_CLIENT) { EcranEcheanceClient(navController) }
+        composable(Routes.GESTION_EMPLOYES) { EcranGestionEmployes(navController) }
         composable(Routes.PARAMETRES_PDG) { EcranParametresPDG(navController) }
         composable(Routes.RETOURS) { EcranRetours(navController) }
         composable(Routes.ARRIVAGES) { EcranArrivages(navController) }

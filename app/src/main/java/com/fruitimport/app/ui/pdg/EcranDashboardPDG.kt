@@ -282,7 +282,7 @@ fun EcranDashboardPDG(navController: NavController, vm: DashboardPDGViewModel = 
                 Text("Actions rapides", fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     CarteAction("👥", "Clients", "Credits", VertFrais, { navController.navigate(Routes.CLIENTS_PDG) }, Modifier.weight(1f))
-                    CarteAction("👨‍💼", "Employes", "Mon equipe", OrangeFruit, { navController.navigate(Routes.EMPLOYES) }, Modifier.weight(1f))
+                    CarteAction("👨‍💼", "Employes", "Mon equipe", OrangeFruit, { navController.navigate(Routes.GESTION_EMPLOYES) }, Modifier.weight(1f))
                     CarteAction("🔄", "Transferts", "Agences", Color(0xFF1565C0), { navController.navigate(Routes.TRANSFERTS_PDG) }, Modifier.weight(1f))
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {

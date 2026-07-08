@@ -17,6 +17,7 @@ data class User(
     val agenceId: Int? = null,
     val isClient: Boolean = false,
     val agence: Agence? = null,
+    val actif: Boolean = true,
     val photoUrl: String? = null,
     val limiteCredit: String? = null,
     val creditUtilise: String? = null,
@@ -320,6 +321,7 @@ data class Message(
 data class ConversationUser(
     val id: Int,
     val nom: String,
+    val actif: Boolean = true,
     val photoUrl: String? = null,
     val role: String = ""
 )
