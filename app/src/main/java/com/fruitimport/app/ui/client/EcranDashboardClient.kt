@@ -115,6 +115,7 @@ fun EcranDashboardClient(navController: NavController) {
 
                 Text("Que voulez-vous faire ?", fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    CarteMenuClient("📝", "Commander", "Passer une commande", VertFrais, { navController.navigate(Routes.NOUVELLE_COMMANDE) }, Modifier.weight(1f))
                     CarteMenuClient("🛒", "Voir le Catalogue", "Nos fruits disponibles", VertFrais, { navController.navigate(Routes.CATALOGUE) }, Modifier.weight(1f))
                     CarteMenuClient("📋", "Mes Commandes", "Historique des achats", OrangeFruit, { navController.navigate(Routes.MES_COMMANDES) }, Modifier.weight(1f))
                 }

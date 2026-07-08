@@ -120,6 +120,10 @@ fun EcranDashboardMagasinier(navController: NavController, vm: DashboardMagasini
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     BoutonAction("🔄", "Transfert", Color(0xFF1565C0), { navController.navigate(Routes.TRANSFERTS) }, Modifier.weight(1f))
                     BoutonAction("⚙", "Profil", Color.Gray, { navController.navigate(Routes.PROFIL) }, Modifier.weight(1f))
+                }
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    BoutonAction("🚨", "Alertes", Color(0xFFC62828), { navController.navigate(Routes.ALERTES_STOCK) }, Modifier.weight(1f))
+                    Spacer(Modifier.weight(2f))
                     Spacer(Modifier.weight(1f))
                 }
                 Spacer(Modifier.height(16.dp))

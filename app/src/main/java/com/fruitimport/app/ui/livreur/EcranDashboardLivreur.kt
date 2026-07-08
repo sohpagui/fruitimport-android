@@ -160,6 +160,18 @@ fun EcranDashboardLivreur(navController: NavController, vm: LivreurViewModel = v
                                     Text("👤", fontSize = 16.sp)
                                     Text(liv.commande?.client?.nom ?: "Client", color = Color.Gray)
                                 }
+                                liv.commande?.adresseLivraison?.let {
+                                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                                        Text("📍", fontSize = 16.sp)
+                                        Text(it, color = Color.Gray, fontSize = 13.sp)
+                                    }
+                                }
+                                liv.commande?.client?.telephone?.let {
+                                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                                        Text("📞", fontSize = 16.sp)
+                                        Text(it, color = Color.Gray, fontSize = 13.sp)
+                                    }
+                                }
                                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                                     Text("📦", fontSize = 16.sp)
                                     Text(liv.commande?.numero ?: "", color = Color.Gray, fontSize = 13.sp)
