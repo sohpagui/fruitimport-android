@@ -172,6 +172,12 @@ fun EcranDashboardSecretaire(navController: NavController, vm: DashboardSecretai
                     BoutonAction("🚨", "Alertes", Color(0xFFC62828), { navController.navigate(Routes.ALERTES_STOCK) }, Modifier.weight(1f))
                     BoutonAction("⚙", "Profil", Color.Gray, { navController.navigate(Routes.PROFIL) }, Modifier.weight(1f))
                 }
+                if (SessionManager.obtenirAgenceId() == 2) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        BoutonAction("🏪", "Comptoir", Color(0xFF4527A0), { navController.navigate(Routes.COMPTOIR) }, Modifier.weight(1f))
+                        Spacer(Modifier.weight(2f))
+                    }
+                }
                 Spacer(Modifier.height(16.dp))
             }
         }

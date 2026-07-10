@@ -371,3 +371,28 @@ data class FixerEcheanceRequest(
     val dateEcheance: String,
     val tauxInteretMensuel: Int = 0
 )
+
+data class ApprovisionnerComptoirRequest(
+    val fruitId: Int,
+    val calibreId: Int,
+    val quantite: Int,
+    val prixDetail: Double
+)
+
+data class VersementComptoirRequest(
+    val montant: Double,
+    val note: String? = null
+)
+
+data class PerteComptoirRequest(
+    val fruitId: Int,
+    val calibreId: Int,
+    val quantite: Int,
+    val raison: String
+)
+
+data class PrixComptoirRequest(
+    val fruitId: Int,
+    val calibreId: Int,
+    val prixDetail: Double
+)

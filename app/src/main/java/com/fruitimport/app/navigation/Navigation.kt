@@ -22,6 +22,7 @@ import com.fruitimport.app.ui.pdg.EcranCreditClient
 import com.fruitimport.app.ui.pdg.EcranPertesPDG
 import com.fruitimport.app.ui.pdg.EcranEcheanceClient
 import com.fruitimport.app.ui.pdg.EcranGestionEmployes
+import com.fruitimport.app.ui.pdg.EcranBenefices
 import com.fruitimport.app.ui.pdg.EcranParametresPDG
 import com.fruitimport.app.ui.pdg.EcranEmployes
 import com.fruitimport.app.ui.pdg.EcranCommandesPDG
@@ -30,6 +31,7 @@ import com.fruitimport.app.ui.pdg.EcranCreditClient
 import com.fruitimport.app.ui.pdg.EcranPertesPDG
 import com.fruitimport.app.ui.pdg.EcranEcheanceClient
 import com.fruitimport.app.ui.pdg.EcranGestionEmployes
+import com.fruitimport.app.ui.pdg.EcranBenefices
 import com.fruitimport.app.ui.pdg.EcranTransfertsPDG
 import com.fruitimport.app.ui.pdg.EcranClientsPDG
 import com.fruitimport.app.ui.secretaire.EcranDashboardSecretaire
@@ -52,6 +54,7 @@ import com.fruitimport.app.ui.magasinier.EcranStock
 import com.fruitimport.app.ui.magasinier.EcranTransferts
 import com.fruitimport.app.ui.secretaire.EcranTransfert
 import com.fruitimport.app.ui.secretaire.EcranAlertesStock
+import com.fruitimport.app.ui.secretaire.EcranComptoir
 import com.fruitimport.app.ui.livreur.EcranDashboardLivreur
 import com.fruitimport.app.ui.client.EcranDashboardClient
 import com.fruitimport.app.ui.client.EcranCatalogue
@@ -81,6 +84,7 @@ object Routes {
     const val PERTES = "pertes"
         const val TRANSFERT_SECRETAIRE = "transfert_secretaire"
         const val ALERTES_STOCK = "alertes_stock"
+        const val COMPTOIR = "comptoir"
     const val TRANSFERTS = "transferts"
 
     // Livreur
@@ -97,6 +101,7 @@ object Routes {
         const val PERTES_PDG = "pertes_pdg"
         const val ECHEANCE_CLIENT = "echeance_client"
         const val GESTION_EMPLOYES = "gestion_employes"
+        const val BENEFICES = "benefices"
         const val PARAMETRES_PDG = "parametres_pdg"
         const val RETOURS = "retours"
         const val ARRIVAGES = "arrivages"
@@ -167,6 +172,7 @@ fun NavigationPrincipale(navController: NavHostController) {
         }
         composable(Routes.TRANSFERT_SECRETAIRE) { EcranTransfert(navController) }
         composable(Routes.ALERTES_STOCK) { EcranAlertesStock(navController) }
+        composable(Routes.COMPTOIR) { EcranComptoir(navController) }
         composable(Routes.TRANSFERTS) {
             EcranTransferts(navController)
         }
@@ -186,6 +192,7 @@ fun NavigationPrincipale(navController: NavHostController) {
         composable(Routes.PERTES_PDG) { EcranPertesPDG(navController) }
         composable(Routes.ECHEANCE_CLIENT) { EcranEcheanceClient(navController) }
         composable(Routes.GESTION_EMPLOYES) { EcranGestionEmployes(navController) }
+        composable(Routes.BENEFICES) { EcranBenefices(navController) }
         composable(Routes.PARAMETRES_PDG) { EcranParametresPDG(navController) }
         composable(Routes.RETOURS) { EcranRetours(navController) }
         composable(Routes.ARRIVAGES) { EcranArrivages(navController) }

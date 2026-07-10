@@ -71,6 +71,33 @@ interface ApiService {
     @PATCH("clients/{id}/echeance")
     suspend fun fixerEcheance(@Path("id") id: Int, @Body data: FixerEcheanceRequest): Response<ApiResponse<Any>>
 
+    @GET("dashboard/benefices")
+    suspend fun obtenirBenefices(@Query("periode") periode: String = "jour"): Response<ApiResponse<Any>>
+
+    @GET("comptoir")
+    suspend fun obtenirComptoir(): Response<ApiResponse<Any>>
+
+    @PATCH("comptoir/gerant")
+    suspend fun changerGerant(@Body data: Map<String, Int>): Response<ApiResponse<Any>>
+
+    @POST("comptoir/approvisionner")
+    suspend fun approvisionnerComptoir(@Body data: ApprovisionnerComptoirRequest): Response<ApiResponse<Any>>
+
+    @POST("comptoir/versement")
+    suspend fun versementComptoir(@Body data: VersementComptoirRequest): Response<ApiResponse<Any>>
+
+    @POST("comptoir/perte")
+    suspend fun perteComptoir(@Body data: PerteComptoirRequest): Response<ApiResponse<Any>>
+
+    @GET("comptoir/versements")
+    suspend fun versementsComptoir(): Response<ApiResponse<Any>>
+
+    @GET("comptoir/stats")
+    suspend fun statsComptoir(): Response<ApiResponse<Any>>
+
+    @PATCH("comptoir/prix")
+    suspend fun modifierPrixComptoir(@Body data: PrixComptoirRequest): Response<ApiResponse<Any>>
+
     @GET("auth/me")
     suspend fun moi(): Response<ApiResponse<User>>
 
