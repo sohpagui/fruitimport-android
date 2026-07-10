@@ -297,6 +297,7 @@ fun EcranDashboardPDG(navController: NavController, vm: DashboardPDGViewModel = 
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         CarteAction("💰", "Benefices", "Gains et pertes", Color(0xFF1B5E20), { navController.navigate(Routes.BENEFICES) }, Modifier.weight(1f))
+                        CarteAction("🏪", "Comptoir", "Yaounde detail", Color(0xFF4527A0), { navController.navigate(Routes.COMPTOIR_PDG) }, Modifier.weight(1f))
                     CarteAction("⚙️", "Parametres", "Config", Color(0xFF00695C), { navController.navigate(Routes.PARAMETRES_PDG) }, Modifier.weight(1f))
                     CarteAction("🚪", "Deconnexion", "Quitter", Color(0xFFC62828), { SessionManager.effacerSession(); navController.navigate(Routes.CONNEXION) { popUpTo(0) { inclusive = true } } }, Modifier.weight(1f))
                     Spacer(Modifier.weight(1f))
