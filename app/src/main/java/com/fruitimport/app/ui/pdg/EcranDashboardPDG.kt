@@ -280,6 +280,7 @@ fun EcranDashboardPDG(navController: NavController, vm: DashboardPDGViewModel = 
                     }
 
                 Text("Actions rapides", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                Text("Actions rapides", fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     CarteAction("👥", "Clients", "Credits", VertFrais, { navController.navigate(Routes.CLIENTS_PDG) }, Modifier.weight(1f))
                     CarteAction("👨‍💼", "Employes", "Mon equipe", OrangeFruit, { navController.navigate(Routes.GESTION_EMPLOYES) }, Modifier.weight(1f))
@@ -296,11 +297,13 @@ fun EcranDashboardPDG(navController: NavController, vm: DashboardPDGViewModel = 
                     CarteAction("📅", "Echeances", "Clients", Color(0xFF6A1B9A), { navController.navigate(Routes.ECHEANCE_CLIENT) }, Modifier.weight(1f))
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        CarteAction("💰", "Benefices", "Gains et pertes", Color(0xFF1B5E20), { navController.navigate(Routes.BENEFICES) }, Modifier.weight(1f))
-                        CarteAction("🏪", "Comptoir", "Yaounde detail", Color(0xFF4527A0), { navController.navigate(Routes.COMPTOIR_PDG) }, Modifier.weight(1f))
+                    CarteAction("💰", "Benefices", "Gains pertes", Color(0xFF1B5E20), { navController.navigate(Routes.BENEFICES) }, Modifier.weight(1f))
+                    CarteAction("🏪", "Comptoir", "Yaounde", Color(0xFF4527A0), { navController.navigate(Routes.COMPTOIR_PDG) }, Modifier.weight(1f))
                     CarteAction("⚙️", "Parametres", "Config", Color(0xFF00695C), { navController.navigate(Routes.PARAMETRES_PDG) }, Modifier.weight(1f))
+                }
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     CarteAction("🚪", "Deconnexion", "Quitter", Color(0xFFC62828), { SessionManager.effacerSession(); navController.navigate(Routes.CONNEXION) { popUpTo(0) { inclusive = true } } }, Modifier.weight(1f))
-                    Spacer(Modifier.weight(1f))
+                    Spacer(Modifier.weight(2f))
                 }
 
                     // Synthese

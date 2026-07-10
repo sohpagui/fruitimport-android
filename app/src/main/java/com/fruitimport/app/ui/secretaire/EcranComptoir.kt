@@ -124,12 +124,13 @@ fun EcranComptoir(navController: NavController, vm: ComptoirViewModel = viewMode
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text("Gerant actuel: ${vm.comptoir?.gerantActuel?.nom ?: "Aucun"}", color = Color.Gray)
-                    ExposedDropdownMenuBox(expanded = gerantExpanded, onExpandedChange = { gerantExpanded = it }) {
-                        OutlinedTextField(value = "", onValueChange = {}, readOnly = true, label = { Text("Choisir un employe") }, trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = gerantExpanded) }, modifier = Modifier.fillMaxWidth().menuAnchor(), shape = RoundedCornerShape(12.dp))
-                        ExposedDropdownMenu(expanded = gerantExpanded, onDismissRequest = { gerantExpanded = false }) {
-                            vm.employes.filter { it.agenceId == 2 }.forEach { emp ->
-                                DropdownMenuItem(text = { Text("${emp.nom} (${emp.role})") }, onClick = { vm.changerGerant(emp.id); afficherGerant = false; gerantExpanded = false })
-                            }
+                    var nomGerant by remember { mutableStateOf("") }
+                    OutlinedTextField(value = nomGerant, onValueChange = { nomGerant = it }, label = { Text("Nom du gerant") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp))
+                    Spacer(Modifier.height(4.dp))
+                    Text("Ou choisir dans la liste:", color = Color.Gray, fontSize = 12.sp)
+                    vm.employes.filter { it.agenceId == 2 }.forEach { emp ->
+                        TextButton(onClick = { vm.changerGerant(emp.id); afficherGerant = false }) {
+                            Text("${emp.nom} - ${emp.role}", color = Color(0xFF1565C0))
                         }
                     }
                 }
