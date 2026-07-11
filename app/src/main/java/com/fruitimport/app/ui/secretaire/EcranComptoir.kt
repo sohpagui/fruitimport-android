@@ -117,26 +117,46 @@ fun EcranComptoir(navController: NavController, vm: ComptoirViewModel = viewMode
     var gerantExpanded by remember { mutableStateOf(false) }
 
     // Dialog changer gerant
+    var nomGerantSaisi by remember { mutableStateOf("") }
     if (afficherGerant) {
         AlertDialog(
             onDismissRequest = { afficherGerant = false },
-            title = { Text("Changer le gerant du comptoir") },
+            title = { Text("Gerant du comptoir") },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text("Gerant actuel: ${vm.comptoir?.gerantActuel?.nom ?: "Aucun"}", color = Color.Gray)
-                    var nomGerant by remember { mutableStateOf("") }
-                    OutlinedTextField(value = nomGerant, onValueChange = { nomGerant = it }, label = { Text("Nom du gerant") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp))
-                    Spacer(Modifier.height(4.dp))
-                    Text("Ou choisir dans la liste:", color = Color.Gray, fontSize = 12.sp)
-                    vm.employes.filter { it.agenceId == 2 }.forEach { emp ->
-                        TextButton(onClick = { vm.changerGerant(emp.id); afficherGerant = false }) {
-                            Text("${emp.nom} - ${emp.role}", color = Color(0xFF1565C0))
+                    Text("Gerant actuel: ${vm.comptoir?.gerantActuel?.nom ?: "Aucun"}", color = Color.Gray, fontSize = 12.sp)
+                    HorizontalDivider()
+                    Text("Saisir le nom:", fontWeight = FontWeight.Medium)
+                    OutlinedTextField(value = nomGerantSaisi, onValueChange = { nomGerantSaisi = it }, label = { Text("Nom du gerant") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp), singleLine = true)
+                    if (vm.employes.isNotEmpty()) {
+                        HorizontalDivider()
+                        Text("Ou choisir:", fontWeight = FontWeight.Medium)
+                        vm.employes.forEach { emp ->
+                            Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(8.dp), colors = CardDefaults.cardColors(containerColor = Color(0xFFE3F2FD))) {
+                                TextButton(onClick = { vm.changerGerant(emp.id); afficherGerant = false; nomGerantSaisi = "" }, modifier = Modifier.fillMaxWidth()) {
+                                    Text("${emp.nom} - ${emp.role}", color = Color(0xFF1565C0))
+                                }
+                            }
                         }
+                    } else {
+                        Text("Chargement employes...", color = Color.Gray, fontSize = 12.sp)
                     }
                 }
             },
-            confirmButton = {},
-            dismissButton = { TextButton(onClick = { afficherGerant = false }) { Text("Fermer") } }
+            confirmButton = {
+                Button(
+                    onClick = {
+                        if (nomGerantSaisi.isNotBlank()) {
+                            val emp = vm.employes.firstOrNull { it.nom.contains(nomGerantSaisi, ignoreCase = true) }
+                            if (emp != null) { vm.changerGerant(emp.id); afficherGerant = false; nomGerantSaisi = "" }
+                            else vm.erreur = "Employe non trouve: $nomGerantSaisi"
+                        }
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = VertFrais),
+                    enabled = nomGerantSaisi.isNotBlank()
+                ) { Text("Confirmer") }
+            },
+            dismissButton = { TextButton(onClick = { afficherGerant = false; nomGerantSaisi = "" }) { Text("Annuler") } }
         )
     }
 
